@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="About RecurKit — the dead simple recurring task manager built for solo operators, freelancers, and small business owners.">
+  <title>About — RecurKit</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#4f46e5">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="RecurKit">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="index.html" class="logo">⟳ <span>RecurKit</span></a>
+      <nav class="topnav">
+        <a href="about.html" data-i18n="nav_about">About</a>
+        <a href="privacy.html" data-i18n="nav_privacy">Privacy</a>
+        <select id="langSelect" class="lang-select" aria-label="Language">
+          <option value="en">🇬🇧 EN</option>
+          <option value="tr">🇹🇷 TR</option>
+          <option value="de">🇩🇪 DE</option>
+          <option value="fr">🇫🇷 FR</option>
+        </select>
+      </nav>
+    </div>
+  </header>
+
+  <div class="page-content">
+    <!-- ENGLISH -->
+    <article class="card prose lang-block" data-lang="en">
+      <h1>About RecurKit</h1>
+      <p><strong>RecurKit</strong> is a dead simple recurring task manager built for one type of person: <em>the solo operator</em>.</p>
+      <p>If you're a freelancer, a one-person business, a landlord, a side-hustler, or anyone who has stuff that needs to get done on a regular schedule — this is for you.</p>
+      <h2>Why we built this</h2>
+      <p>Every task manager out there wants you to manage projects, invite teammates, set up boards, create labels, and configure workflows. That's great if you're a team of 50. But if you're just one person who needs to remember to:</p>
+      <ul>
+        <li>Send invoices on the 1st of every month</li>
+        <li>Check inventory every Thursday</li>
+        <li>Renew your domain name on March 15th</li>
+        <li>Pay quarterly taxes</li>
+        <li>Back up your files every Sunday</li>
+      </ul>
+      <p>…then you don't need Notion. You don't need Asana. You don't need Monday. You need <strong>RecurKit</strong>.</p>
+      <h2>How it works</h2>
+      <ol>
+        <li><strong>Add a task</strong> — give it a name and tell it how often it repeats (daily, weekly, monthly, yearly, or just once).</li>
+        <li><strong>Check it off</strong> — when you've done it, click the circle. RecurKit automatically calculates when it's next due.</li>
+        <li><strong>Stay on top of it</strong> — open RecurKit each day to see what's due. Overdue tasks are highlighted so nothing slips through.</li>
+      </ol>
+      <h2>Your data stays with you</h2>
+      <p>RecurKit stores everything in your browser's local storage. No accounts. No cloud sync. No sign-ups. Your tasks live on your device. Period.</p>
+      <h2>Features</h2>
+      <ul>
+        <li>✅ Daily, weekly, monthly, yearly, and one-time tasks</li>
+        <li>✅ Auto-calculates next due date when you complete a task</li>
+        <li>✅ Overdue task highlighting</li>
+        <li>✅ Filter by today, upcoming, overdue, or all</li>
+        <li>✅ Quick stats dashboard</li>
+        <li>✅ Works on phone, tablet, and desktop</li>
+        <li>✅ No sign-up required</li>
+        <li>✅ 100% free</li>
+      </ul>
+      <p>Built with ❤ for people who just need to get things done.</p>
+    </article>
+
+    <!-- TURKISH -->
+    <article class="card prose lang-block" data-lang="tr" style="display:none">
+      <h1>RecurKit Hakkında</h1>
+      <p><strong>RecurKit</strong>, tek bir kişi tipi için yapılmış çok basit bir tekrarlayan görev yöneticisidir: <em>tek başına çalışanlar</em>.</p>
+      <p>Serbest çalışan, tek kişilik işletme sahibi, mülk yöneticisi veya düzenli bir programa göre yapılması gereken işleri olan biriyseniz — bu uygulama tam size göre.</p>
+      <h2>Neden yaptık</h2>
+      <p>Dışarıdaki her görev yöneticisi sizden proje yönetmenizi, takım arkadaşlarınızı davet etmenizi, panolar oluşturmanızı istiyor. 50 kişilik bir ekipseniz harika. Ama sadece şunları hatırlaması gereken tek bir kişiyseniz:</p>
+      <ul>
+        <li>Her ayın 1'inde fatura göndermek</li>
+        <li>Her perşembe envanteri kontrol etmek</li>
+        <li>15 Mart'ta alan adınızı yenilemek</li>
+        <li>Üç ayda bir vergi ödemek</li>
+        <li>Her pazar dosyalarınızı yedeklemek</li>
+      </ul>
+      <p>…o zaman Notion'a ihtiyacınız yok. Asana'ya da yok. Monday'e de yok. <strong>RecurKit</strong>'e ihtiyacınız var.</p>
+      <h2>Nasıl çalışır</h2>
+      <ol>
+        <li><strong>Görev ekleyin</strong> — bir isim verin ve ne sıklıkla tekrarlandığını belirleyin (günlük, haftalık, aylık, yıllık veya tek seferlik).</li>
+        <li><strong>İşaretleyin</strong> — tamamladığınızda daireye tıklayın. RecurKit bir sonraki tarihi otomatik hesaplar.</li>
+        <li><strong>Takip edin</strong> — her gün RecurKit'i açın ve neyin yapılması gerektiğini görün. Gecikmiş görevler vurgulanır.</li>
+      </ol>
+      <h2>Verileriniz sizde kalır</h2>
+      <p>RecurKit her şeyi tarayıcınızın yerel depolama alanında saklar. Hesap yok. Bulut senkronizasyonu yok. Kayıt yok. Görevleriniz cihazınızda kalır. Nokta.</p>
+      <h2>Özellikler</h2>
+      <ul>
+        <li>✅ Günlük, haftalık, aylık, yıllık ve tek seferlik görevler</li>
+        <li>✅ Görev tamamlandığında sonraki tarihi otomatik hesaplar</li>
+        <li>✅ Gecikmiş görev vurgulama</li>
+        <li>✅ Bugün, yaklaşan, gecikmiş veya tümü olarak filtreleme</li>
+        <li>✅ Hızlı istatistik panosu</li>
+        <li>✅ Telefon, tablet ve masaüstünde çalışır</li>
+        <li>✅ Kayıt gerekmez</li>
+        <li>✅ %100 ücretsiz</li>
+      </ul>
+      <p>İşlerini halletmesi gereken insanlar için ❤ ile yapıldı.</p>
+    </article>
+
+    <!-- GERMAN -->
+    <article class="card prose lang-block" data-lang="de" style="display:none">
+      <h1>Über RecurKit</h1>
+      <p><strong>RecurKit</strong> ist ein ganz einfacher Manager für wiederkehrende Aufgaben, gebaut für einen Typ Mensch: <em>den Einzelkämpfer</em>.</p>
+      <p>Ob Freelancer, Einzelunternehmer, Vermieter oder Nebenjobber — wenn Sie regelmäßig Dinge erledigen müssen, ist das Ihr Werkzeug.</p>
+      <h2>Warum wir das gebaut haben</h2>
+      <p>Jeder Aufgabenmanager will, dass Sie Projekte verwalten, Teammitglieder einladen und Workflows konfigurieren. Toll für ein 50-köpfiges Team. Aber wenn Sie nur eine Person sind, die sich merken muss:</p>
+      <ul>
+        <li>Am 1. jedes Monats Rechnungen senden</li>
+        <li>Jeden Donnerstag den Bestand prüfen</li>
+        <li>Am 15. März die Domain verlängern</li>
+        <li>Vierteljährlich Steuern zahlen</li>
+        <li>Jeden Sonntag Dateien sichern</li>
+      </ul>
+      <p>…dann brauchen Sie kein Notion. Kein Asana. Kein Monday. Sie brauchen <strong>RecurKit</strong>.</p>
+      <h2>So funktioniert's</h2>
+      <ol>
+        <li><strong>Aufgabe hinzufügen</strong> — geben Sie einen Namen ein und legen Sie die Wiederholung fest (täglich, wöchentlich, monatlich, jährlich oder einmalig).</li>
+        <li><strong>Abhaken</strong> — wenn erledigt, klicken Sie den Kreis. RecurKit berechnet automatisch den nächsten Termin.</li>
+        <li><strong>Dranbleiben</strong> — öffnen Sie RecurKit täglich und sehen Sie, was ansteht. Überfällige Aufgaben werden hervorgehoben.</li>
+      </ol>
+      <h2>Ihre Daten bleiben bei Ihnen</h2>
+      <p>RecurKit speichert alles im lokalen Speicher Ihres Browsers. Keine Konten. Keine Cloud-Synchronisierung. Keine Anmeldung. Ihre Aufgaben leben auf Ihrem Gerät. Punkt.</p>
+      <h2>Funktionen</h2>
+      <ul>
+        <li>✅ Tägliche, wöchentliche, monatliche, jährliche und einmalige Aufgaben</li>
+        <li>✅ Berechnet automatisch das nächste Fälligkeitsdatum</li>
+        <li>✅ Hervorhebung überfälliger Aufgaben</li>
+        <li>✅ Filtern nach heute, bevorstehend, überfällig oder alle</li>
+        <li>✅ Schnellstatistik-Dashboard</li>
+        <li>✅ Funktioniert auf Handy, Tablet und Desktop</li>
+        <li>✅ Keine Anmeldung erforderlich</li>
+        <li>✅ 100% kostenlos</li>
+      </ul>
+      <p>Mit ❤ gebaut für Menschen, die einfach Dinge erledigen müssen.</p>
+    </article>
+
+    <!-- FRENCH -->
+    <article class="card prose lang-block" data-lang="fr" style="display:none">
+      <h1>À propos de RecurKit</h1>
+      <p><strong>RecurKit</strong> est un gestionnaire de tâches récurrentes ultra simple, conçu pour un seul type de personne : <em>l'opérateur solo</em>.</p>
+      <p>Que vous soyez freelance, auto-entrepreneur, propriétaire ou que vous ayez simplement des choses à faire régulièrement — c'est pour vous.</p>
+      <h2>Pourquoi nous l'avons créé</h2>
+      <p>Tous les gestionnaires de tâches veulent que vous gériez des projets, invitiez des coéquipiers et configuriez des workflows. C'est super pour une équipe de 50. Mais si vous êtes juste une personne qui doit se souvenir de :</p>
+      <ul>
+        <li>Envoyer les factures le 1er de chaque mois</li>
+        <li>Vérifier l'inventaire chaque jeudi</li>
+        <li>Renouveler le nom de domaine le 15 mars</li>
+        <li>Payer les impôts trimestriels</li>
+        <li>Sauvegarder les fichiers chaque dimanche</li>
+      </ul>
+      <p>…alors vous n'avez pas besoin de Notion. Ni d'Asana. Ni de Monday. Vous avez besoin de <strong>RecurKit</strong>.</p>
+      <h2>Comment ça marche</h2>
+      <ol>
+        <li><strong>Ajoutez une tâche</strong> — donnez-lui un nom et définissez sa fréquence (quotidienne, hebdomadaire, mensuelle, annuelle ou unique).</li>
+        <li><strong>Cochez-la</strong> — quand c'est fait, cliquez le cercle. RecurKit calcule automatiquement la prochaine échéance.</li>
+        <li><strong>Restez à jour</strong> — ouvrez RecurKit chaque jour pour voir ce qui est à faire. Les tâches en retard sont mises en évidence.</li>
+      </ol>
+      <h2>Vos données restent chez vous</h2>
+      <p>RecurKit stocke tout dans le stockage local de votre navigateur. Pas de compte. Pas de synchronisation cloud. Pas d'inscription. Vos tâches restent sur votre appareil. Point.</p>
+      <h2>Fonctionnalités</h2>
+      <ul>
+        <li>✅ Tâches quotidiennes, hebdomadaires, mensuelles, annuelles et uniques</li>
+        <li>✅ Calcul automatique de la prochaine échéance</li>
+        <li>✅ Mise en évidence des tâches en retard</li>
+        <li>✅ Filtrer par aujourd'hui, à venir, en retard ou tout</li>
+        <li>✅ Tableau de bord statistiques rapides</li>
+        <li>✅ Fonctionne sur téléphone, tablette et ordinateur</li>
+        <li>✅ Aucune inscription requise</li>
+        <li>✅ 100% gratuit</li>
+      </ul>
+      <p>Conçu avec ❤ pour ceux qui veulent simplement faire avancer les choses.</p>
+    </article>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <p data-i18n-html="footer_text">&copy; 2026 RecurKit. Built for people who just need to get things done.</p>
+      <nav>
+        <a href="index.html" data-i18n="nav_home">Home</a>
+        <a href="about.html" data-i18n="nav_about">About</a>
+        <a href="privacy.html" data-i18n="nav_privacy_policy">Privacy Policy</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="i18n.js"></script>
+  <script>
+    // Show/hide language blocks on this page
+    document.addEventListener('DOMContentLoaded', function() {
+      function showLangBlock() {
+        var lang = getLang();
+        document.querySelectorAll('.lang-block').forEach(function(el) {
+          el.style.display = el.getAttribute('data-lang') === lang ? '' : 'none';
+        });
+      }
+      showLangBlock();
+      // Re-run when language changes
+      var origSetLang = window.setLang;
+      window.setLang = function(lang) {
+        origSetLang(lang);
+        showLangBlock();
+      };
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+node_modules/
+www/
+android/.gradle/
+android/build/
+android/app/build/
+android/capacitor-cordova-android-plugins/build/
+android/capacitor-android/build/
+android/capacitor-app/build/
+android/capacitor-haptics/build/
+android/capacitor-splash-screen/build/
+android/capacitor-status-bar/build/
+*.apk
+.idea/
+*.iml
+local.properties
+

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="RecurKit — the dead simple recurring task manager for solo operators. No bloat, no teams, no boards. Just your recurring tasks, on time, every time.">
+  <meta name="keywords" content="recurring tasks, task manager, simple task manager, repeat tasks, solo entrepreneur tools">
+  <title>RecurKit — Dead Simple Recurring Tasks</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#4f46e5">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="RecurKit">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+
+  <!-- ===== TOP NAV ===== -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="index.html" class="logo">⟳ <span>RecurKit</span></a>
+      <nav class="topnav">
+        <a href="about.html" data-i18n="nav_about">About</a>
+        <a href="privacy.html" data-i18n="nav_privacy">Privacy</a>
+        <select id="langSelect" class="lang-select" aria-label="Language">
+          <option value="en">🇬🇧 EN</option>
+          <option value="tr">🇹🇷 TR</option>
+          <option value="de">🇩🇪 DE</option>
+          <option value="fr">🇫🇷 FR</option>
+        </select>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <h1 data-i18n-html="hero_title">Your recurring tasks.<br>Dead simple.</h1>
+    <p data-i18n="hero_sub">No projects, no boards, no teams. Just the stuff you need to do — on repeat.</p>
+  </section>
+
+  <!-- ===== MOBILE STATS BAR (visible only on mobile) ===== -->
+  <div class="mobile-stats">
+    <div class="mobile-stat">
+      <span class="mobile-stat-num" id="mStatToday">0</span>
+      <span class="mobile-stat-label" data-i18n="stat_due">Due</span>
+    </div>
+    <div class="mobile-stat mobile-stat-danger">
+      <span class="mobile-stat-num" id="mStatOverdue">0</span>
+      <span class="mobile-stat-label" data-i18n="stat_overdue">Overdue</span>
+    </div>
+    <div class="mobile-stat mobile-stat-success">
+      <span class="mobile-stat-num" id="mStatDone">0</span>
+      <span class="mobile-stat-label" data-i18n="stat_done">Done</span>
+    </div>
+    <div class="mobile-stat">
+      <span class="mobile-stat-num" id="mStatTotal">0</span>
+      <span class="mobile-stat-label" data-i18n="stat_total">Total</span>
+    </div>
+  </div>
+
+  <!-- ===== MAIN LAYOUT ===== -->
+  <div class="main-layout">
+
+    <!-- ===== CONTENT ===== -->
+    <main class="content">
+
+      <!-- Add Task Form -->
+      <div class="card add-task-card" id="addTaskCard">
+        <h2 data-i18n="new_task">+ New Recurring Task</h2>
+        <form id="taskForm" autocomplete="off">
+          <div class="form-row">
+            <input type="text" id="taskName" data-i18n-placeholder="placeholder" placeholder='e.g. "Send invoice to client"' required>
+          </div>
+          <div class="form-row form-row-split">
+            <div class="form-group">
+              <label for="frequency" data-i18n="label_repeats">Repeats</label>
+              <select id="frequency">
+                <option value="daily" data-i18n="freq_daily">Every day</option>
+                <option value="weekly" data-i18n="freq_weekly">Every week</option>
+                <option value="monthly" selected data-i18n="freq_monthly">Every month</option>
+                <option value="yearly" data-i18n="freq_yearly">Every year</option>
+                <option value="once" data-i18n="freq_once">One time only</option>
+              </select>
+            </div>
+            <div class="form-group" id="dayOfWeekGroup" style="display:none">
+              <label for="dayOfWeek" data-i18n="label_day">Day</label>
+              <select id="dayOfWeek">
+                <option value="1" data-i18n="day_mon">Monday</option>
+                <option value="2" data-i18n="day_tue">Tuesday</option>
+                <option value="3" data-i18n="day_wed">Wednesday</option>
+                <option value="4" data-i18n="day_thu">Thursday</option>
+                <option value="5" data-i18n="day_fri">Friday</option>
+                <option value="6" data-i18n="day_sat">Saturday</option>
+                <option value="0" data-i18n="day_sun">Sunday</option>
+              </select>
+            </div>
+            <div class="form-group" id="dayOfMonthGroup">
+              <label for="dayOfMonth" data-i18n="label_day_of_month">Day of month</label>
+              <select id="dayOfMonth"></select>
+            </div>
+            <div class="form-group" id="monthGroup" style="display:none">
+              <label for="monthSelect" data-i18n="label_month">Month</label>
+              <select id="monthSelect">
+                <option value="0" data-i18n="month_0">January</option>
+                <option value="1" data-i18n="month_1">February</option>
+                <option value="2" data-i18n="month_2">March</option>
+                <option value="3" data-i18n="month_3">April</option>
+                <option value="4" data-i18n="month_4">May</option>
+                <option value="5" data-i18n="month_5">June</option>
+                <option value="6" data-i18n="month_6">July</option>
+                <option value="7" data-i18n="month_7">August</option>
+                <option value="8" data-i18n="month_8">September</option>
+                <option value="9" data-i18n="month_9">October</option>
+                <option value="10" data-i18n="month_10">November</option>
+                <option value="11" data-i18n="month_11">December</option>
+              </select>
+            </div>
+            <div class="form-group" id="onceDateGroup" style="display:none">
+              <label for="onceDate" data-i18n="label_date">Date</label>
+              <input type="date" id="onceDate">
+            </div>
+          </div>
+          <button type="submit" class="btn-primary" data-i18n="btn_add">Add Task</button>
+        </form>
+      </div>
+
+      <!-- Filters -->
+      <div class="filters">
+        <button class="filter-btn active" data-filter="today" data-i18n="filter_today">Today</button>
+        <button class="filter-btn" data-filter="upcoming" data-i18n="filter_upcoming">Upcoming</button>
+        <button class="filter-btn" data-filter="overdue" data-i18n="filter_overdue">Overdue</button>
+        <button class="filter-btn" data-filter="all" data-i18n="filter_all">All</button>
+      </div>
+
+      <!-- Task List -->
+      <div id="taskList" class="task-list">
+        <!-- Tasks rendered here by JS -->
+      </div>
+
+      <div id="emptyState" class="empty-state" style="display:none">
+        <div class="empty-icon">📋</div>
+        <p data-i18n="empty_text">No tasks here. Add your first recurring task above!</p>
+      </div>
+
+    </main>
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="sidebar">
+      <div class="sidebar-stats card">
+        <h3 data-i18n="stats_title">Quick Stats</h3>
+        <div class="stat-row"><span class="stat-label" data-i18n="stat_due_today">Due today</span><span id="statToday" class="stat-num">0</span></div>
+        <div class="stat-row"><span class="stat-label" data-i18n="stat_overdue_label">Overdue</span><span id="statOverdue" class="stat-num stat-overdue">0</span></div>
+        <div class="stat-row"><span class="stat-label" data-i18n="stat_done_today">Done today</span><span id="statDone" class="stat-num stat-done">0</span></div>
+        <div class="stat-row"><span class="stat-label" data-i18n="stat_total_tasks">Total tasks</span><span id="statTotal" class="stat-num">0</span></div>
+      </div>
+
+      <div class="sidebar-info card">
+        <h3 data-i18n="how_title">How it works</h3>
+        <ul>
+          <li data-i18n-html="how_1"><strong>Add</strong> a task and set how often it repeats.</li>
+          <li data-i18n-html="how_2"><strong>Check it off</strong> when done — it auto-schedules the next one.</li>
+          <li data-i18n-html="how_3"><strong>Never forget</strong> a recurring task again.</li>
+        </ul>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <p data-i18n-html="footer_text">&copy; 2026 RecurKit. Built for people who just need to get things done.</p>
+      <nav>
+        <a href="index.html" data-i18n="nav_home">Home</a>
+        <a href="about.html" data-i18n="nav_about">About</a>
+        <a href="privacy.html" data-i18n="nav_privacy_policy">Privacy Policy</a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- ===== FAB: floating add button (mobile) ===== -->
+  <button class="fab" id="fabAdd" aria-label="Add new task">+</button>
+
+  <!-- Capacitor bridge — auto-injected in native builds, no-op in browser -->
+  <script src="capacitor.js" onerror="/* not native, ignore */"></script>
+  <script src="i18n.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

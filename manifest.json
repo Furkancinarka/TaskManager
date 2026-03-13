@@ -1,0 +1,42 @@
+{
+  "name": "RecurKit — Dead Simple Recurring Tasks",
+  "short_name": "RecurKit",
+  "description": "The dead simple recurring task manager for solo operators. No bloat, no sign-ups. Just your recurring tasks, on time, every time.",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f5f6f8",
+  "theme_color": "#4f46e5",
+  "categories": ["productivity", "utilities"],
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Add Task",
+      "short_name": "Add",
+      "url": "/index.html#add",
+      "description": "Add a new recurring task"
+    }
+  ]
+}
+
