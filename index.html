@@ -53,6 +53,8 @@
             <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>
           </button>
           <div class="menu-dropdown" id="menuDropdown">
+            <button class="menu-item" id="btnStats" data-i18n="menu_stats">Statistics</button>
+            <div class="menu-sep"></div>
             <button class="menu-item" id="btnExport" data-i18n="menu_export">Export Data</button>
             <button class="menu-item" id="btnImport" data-i18n="menu_import">Import Data</button>
             <div class="menu-sep"></div>
@@ -175,6 +177,20 @@
               <div class="time-input-wrap" id="timeInputWrap">
                 <label for="taskTime" class="time-label" data-i18n="label_time">Time</label>
                 <input type="time" id="taskTime" value="09:00">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="notifyBefore" data-i18n="label_reminder">Reminder</label>
+                <select id="notifyBefore">
+                  <option value="-1" data-i18n="remind_none">No reminder</option>
+                  <option value="0" data-i18n="remind_at_time">At the time</option>
+                  <option value="5" data-i18n="remind_5min">5 minutes before</option>
+                  <option value="15" data-i18n="remind_15min">15 minutes before</option>
+                  <option value="30" selected data-i18n="remind_30min">30 minutes before</option>
+                  <option value="60" data-i18n="remind_1hr">1 hour before</option>
+                  <option value="120" data-i18n="remind_2hr">2 hours before</option>
+                </select>
               </div>
             </div>
             <button type="submit" class="btn-primary" data-i18n="btn_add">Add Task</button>
@@ -307,6 +323,17 @@
         <button class="confirm-btn-yes" id="confirmYes" data-i18n="confirm_yes">Yes</button>
         <button class="confirm-btn-no" id="confirmNo" data-i18n="confirm_no">Cancel</button>
       </div>
+    </div>
+  </div>
+
+  <!-- ===== Statistics Modal ===== -->
+  <div class="stats-overlay" id="statsOverlay">
+    <div class="stats-modal">
+      <div class="stats-header">
+        <h2 data-i18n="stats_page_title">Statistics</h2>
+        <button class="stats-close" id="statsClose">&times;</button>
+      </div>
+      <div class="stats-body" id="statsBody"></div>
     </div>
   </div>
 

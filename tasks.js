@@ -81,6 +81,8 @@
     var freq = freqSelect.value;
     var isFullDay = fullDayCheckbox ? fullDayCheckbox.checked : true;
     var taskTime = (!isFullDay && taskTimeInput) ? taskTimeInput.value : null;
+    var notifyBeforeSelect = document.getElementById('notifyBefore');
+    var notifyBefore = notifyBeforeSelect ? parseInt(notifyBeforeSelect.value) : 30;
 
     var task = {
       id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
@@ -88,6 +90,7 @@
       frequency: freq,
       fullDay: isFullDay,
       taskTime: taskTime,
+      notifyBefore: notifyBefore,
       createdAt: new Date().toISOString(),
       completedDates: []
     };
@@ -137,6 +140,9 @@
     if (task.frequency === 'once') {
       if (!task.completedDates.includes(todayStr)) {
         task.completedDates.push(todayStr);
+      }
+      if (task.completedDates.length > 60) {
+        task.completedDates = task.completedDates.slice(-60);
       }
       RK.saveTasks();
       RK.render();

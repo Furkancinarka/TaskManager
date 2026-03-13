@@ -101,6 +101,12 @@
     return h + ':' + m + ' ' + ampm;
   };
 
+  RK.escapeHtml = function (str) {
+    var div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  };
+
   RK.freqLabel = function (task) {
     if (task.frequency === 'once') return t('flabel_once');
     if (task.frequency === 'daily') return t('flabel_daily');

@@ -33,7 +33,7 @@
     }).catch(function () { if (cb) cb(false); });
   }
 
-  // Schedule a notification — 30 min before task time, or 8:00 AM if full day
+  // Schedule a notification using task.notifyBefore (minutes before due)
   RK.scheduleTaskNotification = function (task) {
     if (!RK.LocalNotif) return;
 
@@ -48,6 +48,15 @@
         return;
       }
 
+      // Determine reminder offset (default 30 min for backward compat)
+      var notifyBefore = (task.notifyBefore !== undefined && task.notifyBefore !== null) ? parseInt(task.notifyBefore) : 30;
+
+      // -1 means user disabled notifications for this task
+      if (notifyBefore < 0) {
+        RK.LocalNotif.cancel({ notifications: [{ id: notifId }] }).catch(function () {});
+        return;
+      }
+
       // Parse the next due date
       var parts = task.nextDue.split('-');
       var notifDate;
@@ -57,9 +66,10 @@
         var taskHour = parseInt(timeParts[0]);
         var taskMin = parseInt(timeParts[1]);
         notifDate = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]), taskHour, taskMin, 0);
-        notifDate.setMinutes(notifDate.getMinutes() - 30);
+        notifDate.setMinutes(notifDate.getMinutes() - notifyBefore);
       } else {
         notifDate = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]), 8, 0, 0);
+        notifDate.setMinutes(notifDate.getMinutes() - notifyBefore);
       }
 
       // If time is in the past, leave existing notification alone
@@ -70,7 +80,11 @@
 
       var bodyText;
       if (!task.fullDay && task.taskTime) {
-        bodyText = t('notif_body_time').replace('{name}', task.name).replace('{time}', RK.formatTime12(task.taskTime));
+        if (notifyBefore === 0) {
+          bodyText = t('notif_body_now').replace('{name}', task.name);
+        } else {
+          bodyText = t('notif_body_time').replace('{name}', task.name).replace('{time}', RK.formatTime12(task.taskTime)).replace('{mins}', String(notifyBefore));
+        }
       } else {
         bodyText = t('notif_body').replace('{name}', task.name);
       }

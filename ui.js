@@ -327,6 +327,170 @@
     }, { passive: true });
   };
 
+  // ==================== Statistics Modal ====================
+  RK.openStats = function () {
+    var overlay = document.getElementById('statsOverlay');
+    if (!overlay) return;
+    RK.renderStatsContent();
+    overlay.classList.add('open');
+    var dd = document.getElementById('menuDropdown');
+    if (dd) dd.classList.remove('open');
+  };
+
+  RK.closeStats = function () {
+    var overlay = document.getElementById('statsOverlay');
+    if (overlay) overlay.classList.remove('open');
+  };
+
+  RK.initStatsModal = function () {
+    var closeBtn = document.getElementById('statsClose');
+    var overlay = document.getElementById('statsOverlay');
+    var statsBtn = document.getElementById('btnStats');
+
+    if (closeBtn) closeBtn.addEventListener('click', RK.closeStats);
+    if (overlay) {
+      overlay.addEventListener('click', function (e) {
+        if (e.target === overlay) RK.closeStats();
+      });
+    }
+    if (statsBtn) statsBtn.addEventListener('click', RK.openStats);
+  };
+
+  RK.renderStatsContent = function () {
+    var body = document.getElementById('statsBody');
+    if (!body) return;
+
+    var todayStr = RK.formatDate(new Date());
+    var total = RK.tasks.length;
+    var dueToday = 0, overdue = 0, doneToday = 0;
+
+    RK.tasks.forEach(function (task) {
+      var isDoneToday = task.completedDates.includes(todayStr);
+      if (isDoneToday) doneToday++;
+      if (task.nextDue === todayStr && !isDoneToday) dueToday++;
+      if (task.nextDue < todayStr && !isDoneToday) overdue++;
+    });
+
+    if (total === 0) {
+      body.innerHTML = '<div class="stats-empty"><p>' + t('stats_no_data') + '</p></div>';
+      return;
+    }
+
+    var html = '';
+
+    // --- Summary cards ---
+    html += '<div class="stats-summary">';
+    html += '<div class="stats-card"><div class="stats-card-num">' + total + '</div><div class="stats-card-label">' + t('stat_total') + '</div></div>';
+    html += '<div class="stats-card primary"><div class="stats-card-num">' + dueToday + '</div><div class="stats-card-label">' + t('stats_due_today_card') + '</div></div>';
+    html += '<div class="stats-card danger"><div class="stats-card-num">' + overdue + '</div><div class="stats-card-label">' + t('stats_overdue_card') + '</div></div>';
+    html += '<div class="stats-card success"><div class="stats-card-num">' + doneToday + '</div><div class="stats-card-label">' + t('stats_done_today_card') + '</div></div>';
+    html += '</div>';
+
+    // --- Last 7 days chart ---
+    var today = new Date();
+    var dailyData = [];
+    var maxCount = 1;
+    for (var i = 6; i >= 0; i--) {
+      var d = new Date(today);
+      d.setDate(d.getDate() - i);
+      var dateStr = RK.formatDate(d);
+      var count = 0;
+      RK.tasks.forEach(function (task) {
+        if (task.completedDates.includes(dateStr)) count++;
+      });
+      if (count > maxCount) maxCount = count;
+      dailyData.push({
+        day: t('dayname_' + d.getDay()).substring(0, 3),
+        count: count
+      });
+    }
+
+    html += '<div class="stats-section">';
+    html += '<div class="stats-section-title">' + t('stats_last_7') + '</div>';
+    html += '<div class="stats-chart">';
+    dailyData.forEach(function (item) {
+      var height = Math.max(Math.round((item.count / maxCount) * 60), 2);
+      html += '<div class="stats-bar-wrap">';
+      html += '<div class="stats-bar-count">' + item.count + '</div>';
+      html += '<div class="stats-bar" style="height:' + height + 'px"></div>';
+      html += '<div class="stats-bar-label">' + item.day + '</div>';
+      html += '</div>';
+    });
+    html += '</div></div>';
+
+    // --- Current streak ---
+    var streak = 0;
+    for (var i = 0; i < 365; i++) {
+      var d = new Date(today);
+      d.setDate(d.getDate() - i);
+      var dateStr = RK.formatDate(d);
+      var anyDone = RK.tasks.some(function (task) {
+        return task.completedDates.includes(dateStr);
+      });
+      if (anyDone) streak++;
+      else break;
+    }
+
+    html += '<div class="stats-section">';
+    html += '<div class="stats-section-title">' + t('stats_streak') + '</div>';
+    html += '<div class="stats-streak">';
+    html += '<div class="stats-streak-num">' + streak + '</div>';
+    html += '<div class="stats-streak-text">' + (streak === 1 ? t('stats_streak_day') : t('stats_streak_days')) + '</div>';
+    html += '</div></div>';
+
+    // --- By frequency type ---
+    var freqMap = {};
+    RK.tasks.forEach(function (task) {
+      var f = task.frequency || 'unknown';
+      freqMap[f] = (freqMap[f] || 0) + 1;
+    });
+
+    var freqOrder = ['daily', 'weekly', 'monthly', 'yearly', 'once', 'custom'];
+    var freqLabels = {
+      daily: t('flabel_daily'),
+      weekly: t('flabel_weekly'),
+      monthly: t('flabel_monthly'),
+      yearly: t('flabel_yearly'),
+      once: t('flabel_once'),
+      custom: t('flabel_custom')
+    };
+
+    html += '<div class="stats-section">';
+    html += '<div class="stats-section-title">' + t('stats_by_type') + '</div>';
+    html += '<div class="stats-freq-list">';
+    freqOrder.forEach(function (f) {
+      if (freqMap[f]) {
+        html += '<div class="stats-freq-row">';
+        html += '<span class="stats-freq-name">' + (freqLabels[f] || f) + '</span>';
+        html += '<span class="stats-freq-count">' + freqMap[f] + '</span>';
+        html += '</div>';
+      }
+    });
+    html += '</div></div>';
+
+    // --- Top completed tasks ---
+    var topTasks = RK.tasks.map(function (task) {
+      return { name: task.name, count: task.completedDates.length };
+    }).filter(function (tk) { return tk.count > 0; })
+      .sort(function (a, b) { return b.count - a.count; })
+      .slice(0, 5);
+
+    if (topTasks.length > 0) {
+      html += '<div class="stats-section">';
+      html += '<div class="stats-section-title">' + t('stats_top_tasks') + '</div>';
+      html += '<div class="stats-top-list">';
+      topTasks.forEach(function (tk) {
+        html += '<div class="stats-top-row">';
+        html += '<span class="stats-top-name">' + RK.escapeHtml(tk.name) + '</span>';
+        html += '<span class="stats-top-count">' + tk.count + ' ' + t('stats_completions') + '</span>';
+        html += '</div>';
+      });
+      html += '</div></div>';
+    }
+
+    body.innerHTML = html;
+  };
+
   // ==================== Three-dot Menu ====================
   RK.initMenu = function () {
     var menuBtn = document.getElementById('menuBtn');

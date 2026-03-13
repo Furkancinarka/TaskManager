@@ -110,6 +110,7 @@
   // ---- Init modules ----
   RK.initSwipeDelete();
   RK.initConfirmModal();
+  RK.initStatsModal();
   RK.initMenu();
   RK.initOnboarding();
   RK.initBatteryBanner();
