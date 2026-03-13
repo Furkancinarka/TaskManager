@@ -1,5 +1,5 @@
 // ===== RecurKit Service Worker =====
-const CACHE_NAME = 'recurkit-v5';
+const CACHE_NAME = 'recurkit-v6';
 const ASSETS = [
   '/',
   '/index.html',

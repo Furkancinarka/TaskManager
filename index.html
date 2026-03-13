@@ -32,12 +32,6 @@
       <nav class="topnav">
         <a href="about.html" class="topnav-link" data-i18n="nav_about">About</a>
         <a href="privacy.html" class="topnav-link" data-i18n="nav_privacy">Privacy</a>
-        <select id="langSelect" class="lang-select" aria-label="Language">
-          <option value="en">🇬🇧 EN</option>
-          <option value="tr">🇹🇷 TR</option>
-          <option value="de">🇩🇪 DE</option>
-          <option value="fr">🇫🇷 FR</option>
-        </select>
         <div class="menu-wrap">
           <button class="menu-btn" id="menuBtn" aria-label="Menu">
             <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>
@@ -45,6 +39,16 @@
           <div class="menu-dropdown" id="menuDropdown">
             <button class="menu-item" id="btnExport" data-i18n="menu_export">Export Data</button>
             <button class="menu-item" id="btnImport" data-i18n="menu_import">Import Data</button>
+            <div class="menu-sep"></div>
+            <div class="menu-lang-row">
+              <span class="menu-lang-label" data-i18n="menu_language">Language</span>
+              <select id="langSelect" class="menu-lang-select" aria-label="Language">
+                <option value="en">English</option>
+                <option value="tr">Türkçe</option>
+                <option value="de">Deutsch</option>
+                <option value="fr">Français</option>
+              </select>
+            </div>
             <div class="menu-sep"></div>
             <a href="about.html" class="menu-item" data-i18n="nav_about">About</a>
             <a href="privacy.html" class="menu-item" data-i18n="nav_privacy">Privacy</a>
@@ -99,12 +103,17 @@
               <div class="form-group">
                 <label for="frequency" data-i18n="label_repeats">Repeats</label>
                 <select id="frequency">
+                  <option value="once" selected data-i18n="freq_once">One time only</option>
                   <option value="daily" data-i18n="freq_daily">Every day</option>
                   <option value="weekly" data-i18n="freq_weekly">Every week</option>
-                  <option value="monthly" selected data-i18n="freq_monthly">Every month</option>
+                  <option value="monthly" data-i18n="freq_monthly">Every month</option>
                   <option value="yearly" data-i18n="freq_yearly">Every year</option>
-                  <option value="once" data-i18n="freq_once">One time only</option>
+                  <option value="custom" data-i18n="freq_custom">Custom...</option>
                 </select>
+              </div>
+              <div class="form-group" id="onceDateGroup">
+                <label for="onceDate" data-i18n="label_date">Date</label>
+                <input type="date" id="onceDate">
               </div>
               <div class="form-group" id="dayOfWeekGroup" style="display:none">
                 <label for="dayOfWeek" data-i18n="label_day">Day</label>
@@ -118,7 +127,7 @@
                   <option value="0" data-i18n="day_sun">Sunday</option>
                 </select>
               </div>
-              <div class="form-group" id="dayOfMonthGroup">
+              <div class="form-group" id="dayOfMonthGroup" style="display:none">
                 <label for="dayOfMonth" data-i18n="label_day_of_month">Day of month</label>
                 <select id="dayOfMonth"></select>
               </div>
@@ -139,9 +148,18 @@
                   <option value="11" data-i18n="month_11">December</option>
                 </select>
               </div>
-              <div class="form-group" id="onceDateGroup" style="display:none">
-                <label for="onceDate" data-i18n="label_date">Date</label>
-                <input type="date" id="onceDate">
+            </div>
+            <div class="form-row form-row-split" id="customGroup" style="display:none">
+              <div class="form-group">
+                <label data-i18n="label_every">Every</label>
+                <div class="custom-interval">
+                  <input type="number" id="customInterval" value="2" min="1" max="365">
+                  <select id="customUnit">
+                    <option value="days" data-i18n="custom_days">days</option>
+                    <option value="weeks" data-i18n="custom_weeks">weeks</option>
+                    <option value="months" data-i18n="custom_months">months</option>
+                  </select>
+                </div>
               </div>
             </div>
             <div class="form-row time-row">

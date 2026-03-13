@@ -104,6 +104,9 @@
   var taskTimeInput = document.getElementById('taskTime');
   var fullDayCheckbox = document.getElementById('fullDay');
   var timeGroup = document.getElementById('timeInputWrap');
+  var customGroup = document.getElementById('customGroup');
+  var customIntervalInput = document.getElementById('customInterval');
+  var customUnitSelect = document.getElementById('customUnit');
   var taskListEl = document.getElementById('taskList');
   var emptyStateEl = document.getElementById('emptyState');
   var filterBtns = document.querySelectorAll('.filter-btn');
@@ -322,14 +325,16 @@
     dayOfMonthGroup.style.display = 'none';
     monthGroup.style.display = 'none';
     onceDateGroup.style.display = 'none';
+    if (customGroup) customGroup.style.display = 'none';
 
+    if (freq === 'once') onceDateGroup.style.display = '';
     if (freq === 'weekly') dayOfWeekGroup.style.display = '';
     if (freq === 'monthly') dayOfMonthGroup.style.display = '';
     if (freq === 'yearly') {
       monthGroup.style.display = '';
       dayOfMonthGroup.style.display = '';
     }
-    if (freq === 'once') onceDateGroup.style.display = '';
+    if (freq === 'custom' && customGroup) customGroup.style.display = '';
   }
 
   // ---- Add task ----
@@ -351,15 +356,18 @@
       completedDates: []
     };
 
-    if (freq === 'weekly') {
+    if (freq === 'once') {
+      task.onceDate = onceDateInput.value;
+    } else if (freq === 'weekly') {
       task.dayOfWeek = parseInt(dayOfWeekSelect.value);
     } else if (freq === 'monthly') {
       task.dayOfMonth = parseInt(dayOfMonthSelect.value);
     } else if (freq === 'yearly') {
       task.month = parseInt(monthSelect.value);
       task.dayOfMonth = parseInt(dayOfMonthSelect.value);
-    } else if (freq === 'once') {
-      task.onceDate = onceDateInput.value;
+    } else if (freq === 'custom') {
+      task.customInterval = parseInt(customIntervalInput ? customIntervalInput.value : 2) || 2;
+      task.customUnit = customUnitSelect ? customUnitSelect.value : 'days';
     }
 
     task.nextDue = calcNextDue(task);
@@ -370,9 +378,11 @@
     form.reset();
     setTodayDefault();
     updateFormFields();
-    // Reset time fields
+    // Reset time and custom fields
     if (fullDayCheckbox) fullDayCheckbox.checked = true;
     if (taskTimeInput) taskTimeInput.value = '09:00';
+    if (customIntervalInput) customIntervalInput.value = '2';
+    if (customUnitSelect) customUnitSelect.value = 'days';
     updateTimeVisibility();
     showToast(t('toast_added'));
     hapticLight();
@@ -424,6 +434,19 @@
 
     if (task.frequency === 'once') {
       return task.onceDate;
+    }
+
+    if (task.frequency === 'custom') {
+      var interval = task.customInterval || 2;
+      var unit = task.customUnit || 'days';
+      var d = new Date(today);
+      if (afterDate) {
+        // After completing, advance from today
+        if (unit === 'days') d.setDate(d.getDate() + interval);
+        else if (unit === 'weeks') d.setDate(d.getDate() + interval * 7);
+        else if (unit === 'months') d.setMonth(d.getMonth() + interval);
+      }
+      return formatDate(d);
     }
 
     return formatDate(today);
@@ -728,11 +751,16 @@
   }
 
   function freqLabel(task) {
+    if (task.frequency === 'once') return t('flabel_once');
     if (task.frequency === 'daily') return t('flabel_daily');
     if (task.frequency === 'weekly') return t('flabel_weekly') + ' · ' + t('dayname_' + task.dayOfWeek);
     if (task.frequency === 'monthly') return t('flabel_monthly') + ' · ' + ordinal(task.dayOfMonth);
     if (task.frequency === 'yearly') return t('flabel_yearly') + ' · ' + t('mon_' + task.month) + ' ' + task.dayOfMonth;
-    if (task.frequency === 'once') return t('flabel_once');
+    if (task.frequency === 'custom') {
+      var n = task.customInterval || 2;
+      var u = task.customUnit || 'days';
+      return t('flabel_every') + ' ' + n + ' ' + t('custom_' + u);
+    }
     return task.frequency;
   }
 
@@ -811,6 +839,15 @@
     menuBtn.addEventListener('click', function (e) {
       e.stopPropagation();
       menuDropdown.classList.toggle('open');
+    });
+  }
+  // Stop menu from closing when interacting with items inside (like lang select)
+  if (menuDropdown) {
+    menuDropdown.addEventListener('click', function (e) {
+      // Only stop propagation for non-link items (let lang select work)
+      if (e.target.closest('.menu-lang-row')) {
+        e.stopPropagation();
+      }
     });
   }
   // Close menu when clicking elsewhere
@@ -1084,31 +1121,31 @@
 
       var notifId = taskIdToNotifId(task.id);
 
-      // Cancel existing notification for this task first
-      LocalNotif.cancel({ notifications: [{ id: notifId }] }).catch(function () {});
-
-      // Don't schedule if task is a completed one-time task
-      if (task.frequency === 'once' && task.completedDates.length > 0) return;
+      // Cancel notification for completed one-time tasks
+      if (task.frequency === 'once' && task.completedDates.length > 0) {
+        LocalNotif.cancel({ notifications: [{ id: notifId }] }).catch(function () {});
+        return;
+      }
 
       // Parse the next due date
       var parts = task.nextDue.split('-');
       var notifDate;
 
       if (!task.fullDay && task.taskTime) {
-        // Specific time — notify 30 minutes before
         var timeParts = task.taskTime.split(':');
         var taskHour = parseInt(timeParts[0]);
         var taskMin = parseInt(timeParts[1]);
         notifDate = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]), taskHour, taskMin, 0);
-        // Subtract 30 minutes
         notifDate.setMinutes(notifDate.getMinutes() - 30);
       } else {
-        // Full day — notify at 8:00 AM on the due date
         notifDate = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]), 8, 0, 0);
       }
 
-      // Don't schedule if the notification time is in the past
+      // If time is in the past, leave existing notification alone (don't cancel it)
       if (notifDate.getTime() < Date.now()) return;
+
+      // Cancel old then schedule new (only for future notifications)
+      LocalNotif.cancel({ notifications: [{ id: notifId }] }).catch(function () {});
 
       var bodyText;
       if (!task.fullDay && task.taskTime) {
@@ -1126,7 +1163,8 @@
           sound: 'default',
           smallIcon: 'ic_stat_notify',
           largeIcon: 'ic_launcher',
-          channelId: 'recurkit_reminders'
+          channelId: 'recurkit_reminders',
+          ongoing: true
         }]
       }).catch(function (err) {
         console.log('Notification schedule error:', err);
@@ -1158,27 +1196,15 @@
     }).catch(function () {});
   }
 
-  // Schedule notifications for all tasks on app start
+  // Schedule notifications for all tasks — called on start & after import
+  // Does NOT cancel existing notifications; scheduleTaskNotification handles that per-task
   function scheduleAllNotifications() {
     if (!LocalNotif) return;
 
     ensureNotifPermission(function (granted) {
       if (!granted) return;
-
-      // Cancel all existing notifications first, then reschedule
-      LocalNotif.getPending().then(function (result) {
-        if (result.notifications && result.notifications.length > 0) {
-          LocalNotif.cancel({ notifications: result.notifications }).catch(function () {});
-        }
-        // Schedule fresh
-        tasks.forEach(function (task) {
-          scheduleTaskNotification(task);
-        });
-      }).catch(function () {
-        // Fallback: just schedule without cancelling
-        tasks.forEach(function (task) {
-          scheduleTaskNotification(task);
-        });
+      tasks.forEach(function (task) {
+        scheduleTaskNotification(task);
       });
     });
   }

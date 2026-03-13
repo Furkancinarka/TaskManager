@@ -86,23 +86,35 @@ a:hover { text-decoration: underline; }
 .topnav a { color: var(--text-muted); font-size: .9rem; font-weight: 500; }
 .topnav a:hover { color: var(--primary); text-decoration: none; }
 
-/* Language selector */
-.lang-select {
-  padding: 4px 6px;
+/* Language selector (inside menu) */
+.menu-lang-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  gap: 10px;
+}
+.menu-lang-label {
+  font-size: .85rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+.menu-lang-select {
+  padding: 5px 8px;
   border: 1.5px solid var(--border);
   border-radius: 6px;
   background: var(--bg);
   color: var(--text);
-  font-size: .8rem;
+  font-size: .82rem;
   font-family: inherit;
   font-weight: 600;
   cursor: pointer;
   min-height: 32px;
   outline: none;
-  transition: border-color .2s, background .2s;
+  transition: border-color .2s;
 }
-.lang-select:focus { border-color: var(--primary); }
-.lang-select option { background: var(--surface); color: var(--text); }
+.menu-lang-select:focus { border-color: var(--primary); }
+.menu-lang-select option { background: var(--surface); color: var(--text); }
 
 /* ===== HERO ===== */
 .hero {
@@ -242,6 +254,47 @@ a:hover { text-decoration: underline; }
   border-color: var(--primary);
 }
 
+
+/* ===== CUSTOM INTERVAL ROW ===== */
+.custom-interval {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.custom-interval input[type="number"] {
+  width: 70px;
+  padding: 10px 12px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  font-size: 16px;
+  font-family: inherit;
+  background: var(--bg);
+  text-align: center;
+  min-height: 44px;
+  color: var(--text);
+  transition: border-color .2s;
+}
+.custom-interval input[type="number"]:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+.custom-interval select {
+  flex: 1;
+  padding: 10px 12px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  font-size: 16px;
+  font-family: inherit;
+  background: var(--bg);
+  cursor: pointer;
+  min-height: 44px;
+  color: var(--text);
+  transition: border-color .2s;
+}
+.custom-interval select:focus {
+  outline: none;
+  border-color: var(--primary);
+}
 
 /* ===== TIME ROW (Full Day toggle + Time picker) ===== */
 .time-row {
@@ -522,6 +575,7 @@ a:hover { text-decoration: underline; }
 .badge-monthly { background: #fef3c7; color: #92400e; }
 .badge-yearly { background: #fce7f3; color: #9d174d; }
 .badge-once { background: #e5e7eb; color: #374151; }
+.badge-custom { background: #ecfdf5; color: #047857; }
 .badge-done { background: #d1fae5; color: #065f46; }
 .badge-overdue { background: #fee2e2; color: #991b1b; }
 .badge-today { background: #fef3c7; color: #92400e; }
@@ -1154,15 +1208,6 @@ body.sheet-open .fab {
   .menu-btn:hover { background: rgba(255,255,255,.15); }
   .topnav a { color: rgba(255,255,255,.85); }
   .topnav a:hover { color: #fff; }
-  .lang-select {
-    background: rgba(255,255,255,.15);
-    color: #fff;
-    border-color: rgba(255,255,255,.25);
-    font-size: .75rem;
-    min-height: 30px;
-    padding: 3px 5px;
-  }
-  .lang-select option { background: var(--surface); color: var(--text); }
 
   /* --- Hide hero on mobile --- */
   .hero { display: none; }
@@ -1371,6 +1416,15 @@ body.sheet-open .fab {
   .form-group input[type="date"]:focus {
     background: var(--surface);
   }
+  /* Custom interval dark */
+  .custom-interval input[type="number"],
+  .custom-interval select {
+    color: var(--text);
+    background: var(--bg);
+    border-color: var(--border);
+  }
+  .custom-interval select option { background: var(--surface); color: var(--text); }
+
   /* Full day toggle dark */
   .fullday-slider { background: var(--border); }
   .fullday-slider::after { background: #e5e7eb; }
@@ -1445,6 +1499,7 @@ body.sheet-open .fab {
   .badge-monthly { background: #451a03; color: #fcd34d; }
   .badge-yearly { background: #500724; color: #f9a8d4; }
   .badge-once { background: #1f2937; color: #9ca3af; }
+  .badge-custom { background: #064e3b; color: #6ee7b7; }
   .badge-done { background: #064e3b; color: #6ee7b7; }
   .badge-overdue { background: #450a0a; color: #fca5a5; }
   .badge-today { background: #451a03; color: #fcd34d; }
@@ -1458,8 +1513,8 @@ body.sheet-open .fab {
   .topbar { background: var(--surface); border-color: var(--border); }
   .logo { color: var(--text); }
   .topnav a { color: var(--text-muted); }
-  .lang-select { background: var(--bg); color: var(--text); border-color: var(--border); }
-  .lang-select option { background: var(--surface); color: var(--text); }
+  .menu-lang-select { background: var(--bg); color: var(--text); border-color: var(--border); }
+  .menu-lang-select option { background: var(--surface); color: var(--text); }
 
   /* Bottom sheet */
   .bottom-sheet { background: var(--surface); }
@@ -1529,11 +1584,6 @@ body.sheet-open .fab {
     box-shadow: 0 2px 8px rgba(0,0,0,.3);
   }
   .logo { color: #e5e7eb; }
-  .lang-select {
-    background: rgba(255,255,255,.08);
-    color: #e5e7eb;
-    border-color: rgba(255,255,255,.15);
-  }
 }
 
 @media (prefers-color-scheme: dark) and (display-mode: standalone) {
