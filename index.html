@@ -257,6 +257,17 @@
     <button class="battery-dismiss" id="batteryDismiss">OK</button>
   </div>
 
+  <!-- ===== Custom Confirm Modal ===== -->
+  <div class="confirm-overlay" id="confirmOverlay">
+    <div class="confirm-modal">
+      <p class="confirm-msg" id="confirmMsg"></p>
+      <div class="confirm-btns">
+        <button class="confirm-btn-yes" id="confirmYes" data-i18n="confirm_yes">Yes</button>
+        <button class="confirm-btn-no" id="confirmNo" data-i18n="confirm_no">Cancel</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Hidden file input for Import -->
   <input type="file" id="importFileInput" accept=".json,application/json" style="display:none">
 

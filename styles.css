@@ -522,6 +522,7 @@ a:hover { text-decoration: underline; }
 .badge-monthly { background: #fef3c7; color: #92400e; }
 .badge-yearly { background: #fce7f3; color: #9d174d; }
 .badge-once { background: #e5e7eb; color: #374151; }
+.badge-done { background: #d1fae5; color: #065f46; }
 .badge-overdue { background: #fee2e2; color: #991b1b; }
 .badge-today { background: #fef3c7; color: #92400e; }
 
@@ -1037,6 +1038,77 @@ body.sheet-open .fab {
   border: 1px solid var(--border);
 }
 
+/* ===== CUSTOM CONFIRM MODAL ===== */
+.confirm-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: rgba(0,0,0,.5);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.confirm-overlay.open {
+  display: flex;
+}
+.confirm-modal {
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 24px;
+  max-width: 340px;
+  width: 100%;
+  box-shadow: 0 16px 48px rgba(0,0,0,.2);
+  animation: slideInUp .25s ease;
+}
+.confirm-msg {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.5;
+  margin-bottom: 20px;
+  word-break: break-word;
+}
+.confirm-btns {
+  display: flex;
+  gap: 10px;
+}
+.confirm-btn-yes,
+.confirm-btn-no {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: .9rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  min-height: 44px;
+  transition: transform .1s, background .15s;
+  border: none;
+}
+.confirm-btn-yes:active,
+.confirm-btn-no:active {
+  transform: scale(.96);
+}
+.confirm-btn-yes {
+  background: var(--danger);
+  color: #fff;
+}
+.confirm-btn-yes:hover {
+  background: #dc2626;
+}
+.confirm-btn-no {
+  background: var(--bg);
+  color: var(--text);
+  border: 1.5px solid var(--border);
+}
+.confirm-btn-no:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
 /* ===== ANIMATIONS ===== */
 @keyframes slideInUp {
   from { opacity: 0; transform: translateY(16px); }
@@ -1373,6 +1445,7 @@ body.sheet-open .fab {
   .badge-monthly { background: #451a03; color: #fcd34d; }
   .badge-yearly { background: #500724; color: #f9a8d4; }
   .badge-once { background: #1f2937; color: #9ca3af; }
+  .badge-done { background: #064e3b; color: #6ee7b7; }
   .badge-overdue { background: #450a0a; color: #fca5a5; }
   .badge-today { background: #451a03; color: #fcd34d; }
 
@@ -1440,6 +1513,12 @@ body.sheet-open .fab {
   .backup-reminder { background: var(--surface); border-color: var(--border); }
   .backup-reminder-text { color: var(--text); }
   .backup-btn-later { background: var(--bg); color: var(--text-muted); border-color: var(--border); }
+
+  /* Confirm modal */
+  .confirm-overlay { background: rgba(0,0,0,.65); }
+  .confirm-modal { background: var(--surface); }
+  .confirm-msg { color: var(--text); }
+  .confirm-btn-no { background: var(--bg); color: var(--text); border-color: var(--border); }
 }
 
 /* Dark mode + mobile: native dark topbar */

@@ -431,7 +431,7 @@
 
   // ---- Complete a task ----
   function completeTask(id) {
-    var task = tasks.find(function (t) { return t.id === id; });
+    var task = tasks.find(function (tk) { return tk.id === id; });
     if (!task) return;
 
     var todayStr = formatDate(new Date());
@@ -463,7 +463,7 @@
 
   // ---- Uncomplete (undo) ----
   function uncompleteTask(id) {
-    var task = tasks.find(function (t) { return t.id === id; });
+    var task = tasks.find(function (tk) { return tk.id === id; });
     if (!task) return;
     var todayStr = formatDate(new Date());
     task.completedDates = task.completedDates.filter(function (d) { return d !== todayStr; });
@@ -485,10 +485,10 @@
 
   // ---- Delete task ----
   function deleteTask(id) {
-    var task = tasks.find(function (t) { return t.id === id; });
+    var task = tasks.find(function (tk) { return tk.id === id; });
     if (task) cancelTaskNotification(task);
 
-    tasks = tasks.filter(function (t) { return t.id !== id; });
+    tasks = tasks.filter(function (tk) { return tk.id !== id; });
     saveTasks();
     render();
     showToast(t('toast_deleted'));
@@ -599,9 +599,7 @@
         metaDiv.appendChild(badge);
       } else if (isDoneToday) {
         var badge = document.createElement('span');
-        badge.className = 'task-badge';
-        badge.style.background = '#d1fae5';
-        badge.style.color = '#065f46';
+        badge.className = 'task-badge badge-done';
         badge.textContent = t('badge_done_today');
         metaDiv.appendChild(badge);
       } else {
@@ -621,9 +619,9 @@
       delBtn.setAttribute('aria-label', t('btn_delete_task'));
       delBtn.addEventListener('click', function (e) {
         e.stopPropagation();
-        if (confirm(t('confirm_delete').replace('{name}', task.name))) {
+        showConfirm(t('confirm_delete').replace('{name}', task.name), function () {
           deleteTask(task.id);
-        }
+        });
       });
 
       el.appendChild(checkBtn);
@@ -773,6 +771,41 @@
     }, 2500);
   }
 
+  // ===== CUSTOM CONFIRM MODAL =====
+  var confirmOverlay = document.getElementById('confirmOverlay');
+  var confirmMsg = document.getElementById('confirmMsg');
+  var confirmYes = document.getElementById('confirmYes');
+  var confirmNo = document.getElementById('confirmNo');
+  var confirmCallback = null;
+
+  function showConfirm(message, onConfirm) {
+    if (!confirmOverlay) { if (onConfirm) onConfirm(); return; }
+    confirmMsg.textContent = message;
+    confirmCallback = onConfirm;
+    confirmOverlay.classList.add('open');
+  }
+
+  function closeConfirm() {
+    confirmOverlay.classList.remove('open');
+    confirmCallback = null;
+  }
+
+  if (confirmYes) {
+    confirmYes.addEventListener('click', function () {
+      var cb = confirmCallback;
+      closeConfirm();
+      if (cb) cb();
+    });
+  }
+  if (confirmNo) {
+    confirmNo.addEventListener('click', closeConfirm);
+  }
+  if (confirmOverlay) {
+    confirmOverlay.addEventListener('click', function (e) {
+      if (e.target === confirmOverlay) closeConfirm();
+    });
+  }
+
   // ===== THREE-DOT MENU =====
   if (menuBtn) {
     menuBtn.addEventListener('click', function (e) {
@@ -843,50 +876,45 @@
           }
 
           // Validate each task has required fields
-          var valid = importedTasks.every(function (t) {
-            return t.id && t.name && t.frequency && t.nextDue;
+          var valid = importedTasks.every(function (tk) {
+            return tk.id && tk.name && tk.frequency && tk.nextDue;
           });
           if (!valid) {
             showToast(t('toast_import_fail'));
             return;
           }
 
-          // Ask user: merge or replace?
+          // Merge imported tasks
           var count = importedTasks.length;
-          var action = tasks.length > 0
-            ? confirm(t('import_confirm_merge').replace('{count}', count))
-            : true; // No existing tasks, just import
 
-          if (action === false) {
-            // User clicked Cancel on merge prompt — still import but replace
-            // Actually let's use a simpler flow: always merge (add missing)
-            return;
+          function doImport() {
+            var existingIds = {};
+            tasks.forEach(function (tk) { existingIds[tk.id] = true; });
+
+            var added = 0;
+            importedTasks.forEach(function (tk) {
+              if (!existingIds[tk.id]) {
+                if (!Array.isArray(tk.completedDates)) tk.completedDates = [];
+                if (tk.fullDay === undefined) tk.fullDay = true;
+                tasks.push(tk);
+                added++;
+              }
+            });
+
+            saveTasks();
+            render();
+            showToast(t('toast_imported').replace('{count}', added));
+            hapticSuccess();
+
+            if (isNative && LocalNotif) {
+              setTimeout(scheduleAllNotifications, 500);
+            }
           }
 
-          // Merge: add tasks whose IDs don't already exist
-          var existingIds = {};
-          tasks.forEach(function (t) { existingIds[t.id] = true; });
-
-          var added = 0;
-          importedTasks.forEach(function (t) {
-            if (!existingIds[t.id]) {
-              // Ensure completedDates array exists
-              if (!Array.isArray(t.completedDates)) t.completedDates = [];
-              // Ensure fullDay default
-              if (t.fullDay === undefined) t.fullDay = true;
-              tasks.push(t);
-              added++;
-            }
-          });
-
-          saveTasks();
-          render();
-          showToast(t('toast_imported').replace('{count}', added));
-          hapticSuccess();
-
-          // Reschedule all notifications
-          if (isNative && LocalNotif) {
-            setTimeout(scheduleAllNotifications, 500);
+          if (tasks.length > 0) {
+            showConfirm(t('import_confirm_merge').replace('{count}', count), doImport);
+          } else {
+            doImport();
           }
         } catch (err) {
           showToast(t('toast_import_fail'));

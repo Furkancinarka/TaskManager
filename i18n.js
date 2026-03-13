@@ -67,6 +67,7 @@
       date_today: 'Today', date_tomorrow: 'Tomorrow', date_yesterday: 'Yesterday',
       // Confirm
       confirm_delete: 'Delete "{name}"?',
+      confirm_yes: 'Yes', confirm_no: 'Cancel',
       // Buttons
       btn_undo: 'Undo', btn_mark_done: 'Mark as done', btn_undo_completion: 'Undo completion', btn_delete_task: 'Delete task',
       // Install banner
@@ -153,6 +154,7 @@
       flabel_yearly: 'Yıllık', flabel_once: 'Tek seferlik',
       date_today: 'Bugün', date_tomorrow: 'Yarın', date_yesterday: 'Dün',
       confirm_delete: '"{name}" silinsin mi?',
+      confirm_yes: 'Evet', confirm_no: '\u0130ptal',
       btn_undo: 'Geri al', btn_mark_done: 'Tamamlandı olarak işaretle', btn_undo_completion: 'Geri al', btn_delete_task: 'Görevi sil',
       install_title: 'RecurKit\'i Yükle', install_text: 'Hızlı erişim için ana ekranınıza ekleyin', install_btn: 'Yükle',
       notif_body: '{name} bugün yapılmalı',
@@ -228,8 +230,9 @@
       flabel_daily: 'Täglich', flabel_weekly: 'Wöchentlich', flabel_monthly: 'Monatlich',
       flabel_yearly: 'Jährlich', flabel_once: 'Einmalig',
       date_today: 'Heute', date_tomorrow: 'Morgen', date_yesterday: 'Gestern',
-      confirm_delete: '"{name}" löschen?',
-      btn_undo: 'Rückgängig', btn_mark_done: 'Als erledigt markieren', btn_undo_completion: 'Rückgängig', btn_delete_task: 'Aufgabe löschen',
+      confirm_delete: '"{name}" l\u00f6schen?',
+      confirm_yes: 'Ja', confirm_no: 'Abbrechen',
+      btn_undo: 'R\u00fcckg\u00e4ngig', btn_mark_done: 'Als erledigt markieren', btn_undo_completion: 'Rückgängig', btn_delete_task: 'Aufgabe löschen',
       install_title: 'RecurKit installieren', install_text: 'Zum Startbildschirm hinzufügen', install_btn: 'Installieren',
       notif_body: '{name} ist heute fällig',
       notif_body_time: '{name} ist um {time} fällig -- in 30 Min!',
@@ -304,7 +307,8 @@
       flabel_daily: 'Quotidien', flabel_weekly: 'Hebdomadaire', flabel_monthly: 'Mensuel',
       flabel_yearly: 'Annuel', flabel_once: 'Unique',
       date_today: 'Aujourd\u2019hui', date_tomorrow: 'Demain', date_yesterday: 'Hier',
-      confirm_delete: 'Supprimer « {name} »\u00A0?',
+      confirm_delete: 'Supprimer \u00ab {name} \u00bb\u00a0?',
+      confirm_yes: 'Oui', confirm_no: 'Annuler',
       btn_undo: 'Annuler', btn_mark_done: 'Marquer comme fait', btn_undo_completion: 'Annuler', btn_delete_task: 'Supprimer la tâche',
       install_title: 'Installer RecurKit', install_text: 'Ajouter à l\u2019écran d\u2019accueil pour un accès rapide', install_btn: 'Installer',
       notif_body: '{name} est pr\u00e9vu aujourd\u2019hui',
