@@ -9,6 +9,7 @@
   var Haptics = CapPlugins.Haptics || null;
   var StatusBarPlugin = CapPlugins.StatusBar || null;
   var SplashPlugin = CapPlugins.SplashScreen || null;
+  var LocalNotif = CapPlugins.LocalNotifications || null;
 
   // Native init — set status bar + hide splash
   if (isNative) {
@@ -21,7 +22,7 @@
     }
   }
 
-  // Haptic feedback helper — uses native Capacitor Haptics when available, falls back to Vibration API
+  // Haptic feedback helpers
   function hapticLight() {
     if (Haptics) { Haptics.impact({ style: 'LIGHT' }).catch(function () {}); }
     else if (navigator.vibrate) { navigator.vibrate(30); }
@@ -31,12 +32,12 @@
     else if (navigator.vibrate) { navigator.vibrate([30, 50, 30]); }
   }
 
-  // ---- Register Service Worker (PWA only, not inside native shell) ----
+  // ---- Register Service Worker (PWA only) ----
   if (!isNative && 'serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js').catch(function () {});
   }
 
-  // ---- PWA Install Prompt (only in browser, not native) ----
+  // ---- PWA Install Prompt (browser only) ----
   var deferredPrompt = null;
   if (!isNative) {
     window.addEventListener('beforeinstallprompt', function (e) {
@@ -102,6 +103,10 @@
   var addTaskCard = document.getElementById('addTaskCard');
   var fab = document.getElementById('fabAdd');
 
+  // Bottom sheet refs
+  var bottomSheet = document.getElementById('bottomSheet');
+  var sheetOverlay = document.getElementById('sheetOverlay');
+
   // Stats — desktop
   var statToday = document.getElementById('statToday');
   var statOverdue = document.getElementById('statOverdue');
@@ -137,20 +142,65 @@
       btn.classList.add('active');
       currentFilter = btn.dataset.filter;
       render();
+      hapticLight();
     });
   });
 
-  // FAB — scroll to add-task form
+  // ---- Bottom Sheet Logic ----
+  var sheetOpen = false;
+
+  function openSheet() {
+    if (sheetOpen) return;
+    sheetOpen = true;
+    bottomSheet.classList.add('open');
+    sheetOverlay.classList.add('open');
+    document.body.classList.add('sheet-open');
+    hapticLight();
+    // Focus input after animation
+    setTimeout(function () {
+      nameInput.focus();
+    }, 350);
+  }
+
+  function closeSheet() {
+    if (!sheetOpen) return;
+    sheetOpen = false;
+    bottomSheet.classList.remove('open');
+    sheetOverlay.classList.remove('open');
+    document.body.classList.remove('sheet-open');
+    nameInput.blur();
+  }
+
+  // FAB toggles bottom sheet on mobile, scrolls on desktop
   if (fab) {
     fab.addEventListener('click', function () {
-      if (addTaskCard) {
-        addTaskCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        setTimeout(function () {
-          nameInput.focus();
-        }, 400);
+      if (window.innerWidth <= 600) {
+        if (sheetOpen) {
+          closeSheet();
+        } else {
+          openSheet();
+        }
+      } else {
+        // Desktop: scroll to form
+        if (addTaskCard) {
+          addTaskCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          setTimeout(function () { nameInput.focus(); }, 400);
+        }
       }
     });
   }
+
+  // Close sheet when tapping overlay
+  if (sheetOverlay) {
+    sheetOverlay.addEventListener('click', closeSheet);
+  }
+
+  // Close sheet on Escape key
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && sheetOpen) {
+      closeSheet();
+    }
+  });
 
   // Swipe-to-delete support for mobile
   (function initSwipeDelete() {
@@ -184,7 +234,6 @@
       currentItem.style.transition = 'transform .3s, opacity .3s';
 
       if (offset < -threshold) {
-        // Find and delete the task
         var taskId = currentItem.dataset.taskId;
         if (taskId) {
           currentItem.style.transform = 'translateX(-100%)';
@@ -270,9 +319,14 @@
     form.reset();
     setTodayDefault();
     updateFormFields();
-    nameInput.focus();
     showToast(t('toast_added'));
     hapticLight();
+
+    // Close bottom sheet on mobile after adding
+    closeSheet();
+
+    // Schedule notification
+    scheduleTaskNotification(task);
   }
 
   // ---- Calculate next due date ----
@@ -335,6 +389,7 @@
       render();
       showToast(t('toast_done_once'));
       hapticSuccess();
+      cancelTaskNotification(task);
       return;
     }
 
@@ -346,6 +401,9 @@
     render();
     showToast(t('toast_done_next') + prettyDate(task.nextDue));
     hapticSuccess();
+
+    // Reschedule notification for new due date
+    scheduleTaskNotification(task);
   }
 
   // ---- Uncomplete (undo) ----
@@ -365,10 +423,16 @@
     saveTasks();
     render();
     showToast(t('toast_unmarked'));
+
+    // Reschedule notification
+    scheduleTaskNotification(task);
   }
 
   // ---- Delete task ----
   function deleteTask(id) {
+    var task = tasks.find(function (t) { return t.id === id; });
+    if (task) cancelTaskNotification(task);
+
     tasks = tasks.filter(function (t) { return t.id !== id; });
     saveTasks();
     render();
@@ -427,7 +491,7 @@
 
       var el = document.createElement('div');
       el.className = 'task-item';
-      el.dataset.taskId = task.id; // for swipe-to-delete
+      el.dataset.taskId = task.id;
       if (isDoneToday) el.className += ' completed-today';
       else if (isOverdue) el.className += ' overdue';
       else if (isDueToday) el.className += ' due-today';
@@ -602,7 +666,9 @@
   // ---- Native back button handler (Android hardware back) ----
   if (isNative && CapPlugins.App) {
     CapPlugins.App.addListener('backButton', function (ev) {
-      if (ev.canGoBack) {
+      if (sheetOpen) {
+        closeSheet();
+      } else if (ev.canGoBack) {
         window.history.back();
       } else {
         CapPlugins.App.minimizeApp();
@@ -630,6 +696,143 @@
       toast.classList.remove('show');
       setTimeout(function () { toast.remove(); }, 300);
     }, 2500);
+  }
+
+  // ===== LOCAL NOTIFICATIONS =====
+
+  // Convert task id string to a positive integer for notification ID
+  function taskIdToNotifId(id) {
+    var hash = 0;
+    for (var i = 0; i < id.length; i++) {
+      hash = ((hash << 5) - hash) + id.charCodeAt(i);
+      hash |= 0;
+    }
+    return Math.abs(hash) || 1;
+  }
+
+  // Request notification permission (call once)
+  var notifPermRequested = false;
+  function ensureNotifPermission(cb) {
+    if (!LocalNotif) { if (cb) cb(false); return; }
+
+    if (notifPermRequested) { if (cb) cb(true); return; }
+
+    LocalNotif.checkPermissions().then(function (result) {
+      if (result.display === 'granted') {
+        notifPermRequested = true;
+        if (cb) cb(true);
+      } else {
+        LocalNotif.requestPermissions().then(function (req) {
+          notifPermRequested = req.display === 'granted';
+          if (cb) cb(notifPermRequested);
+        }).catch(function () { if (cb) cb(false); });
+      }
+    }).catch(function () { if (cb) cb(false); });
+  }
+
+  // Schedule a notification for a task's next due date at 8:00 AM
+  function scheduleTaskNotification(task) {
+    if (!LocalNotif) return;
+
+    ensureNotifPermission(function (granted) {
+      if (!granted) return;
+
+      var notifId = taskIdToNotifId(task.id);
+
+      // Cancel existing notification for this task first
+      LocalNotif.cancel({ notifications: [{ id: notifId }] }).catch(function () {});
+
+      // Don't schedule if task is a completed one-time task
+      if (task.frequency === 'once' && task.completedDates.length > 0) return;
+
+      // Parse the next due date
+      var parts = task.nextDue.split('-');
+      var dueDate = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]), 8, 0, 0);
+
+      // Don't schedule if the due date is in the past
+      if (dueDate.getTime() < Date.now()) return;
+
+      var bodyText = t('notif_body').replace('{name}', task.name);
+
+      LocalNotif.schedule({
+        notifications: [{
+          title: 'RecurKit',
+          body: bodyText,
+          id: notifId,
+          schedule: { at: dueDate },
+          sound: 'default',
+          smallIcon: 'ic_stat_notify',
+          largeIcon: 'ic_launcher',
+          channelId: 'recurkit_reminders'
+        }]
+      }).catch(function (err) {
+        console.log('Notification schedule error:', err);
+      });
+    });
+  }
+
+  // Cancel notification for a task
+  function cancelTaskNotification(task) {
+    if (!LocalNotif) return;
+    var notifId = taskIdToNotifId(task.id);
+    LocalNotif.cancel({ notifications: [{ id: notifId }] }).catch(function () {});
+  }
+
+  // Create notification channel for Android (required for Android 8+)
+  function createNotifChannel() {
+    if (!LocalNotif) return;
+    if (!LocalNotif.createChannel) return;
+
+    LocalNotif.createChannel({
+      id: 'recurkit_reminders',
+      name: 'Task Reminders',
+      description: 'Notifications for upcoming and due tasks',
+      importance: 4, // HIGH
+      visibility: 1, // PUBLIC
+      sound: 'default',
+      vibration: true,
+      lights: true
+    }).catch(function () {});
+  }
+
+  // Schedule notifications for all tasks on app start
+  function scheduleAllNotifications() {
+    if (!LocalNotif) return;
+
+    ensureNotifPermission(function (granted) {
+      if (!granted) return;
+
+      // Cancel all existing notifications first, then reschedule
+      LocalNotif.getPending().then(function (result) {
+        if (result.notifications && result.notifications.length > 0) {
+          LocalNotif.cancel({ notifications: result.notifications }).catch(function () {});
+        }
+        // Schedule fresh
+        tasks.forEach(function (task) {
+          scheduleTaskNotification(task);
+        });
+      }).catch(function () {
+        // Fallback: just schedule without cancelling
+        tasks.forEach(function (task) {
+          scheduleTaskNotification(task);
+        });
+      });
+    });
+  }
+
+  // Handle notification click — open the app and show the task
+  if (LocalNotif) {
+    LocalNotif.addListener('localNotificationActionPerformed', function () {
+      // Just bring the app to foreground — no special action needed
+      // The task list will show the due tasks
+    });
+  }
+
+  // Init notifications
+  if (isNative && LocalNotif) {
+    createNotifChannel();
+    // Small delay to let the app fully load
+    setTimeout(scheduleAllNotifications, 1500);
   }
 
 })();

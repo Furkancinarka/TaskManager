@@ -69,7 +69,9 @@
       // Buttons
       btn_undo: 'Undo', btn_mark_done: 'Mark as done', btn_undo_completion: 'Undo completion', btn_delete_task: 'Delete task',
       // Install banner
-      install_title: 'Install RecurKit', install_text: 'Add to your home screen for quick access', install_btn: 'Install'
+      install_title: 'Install RecurKit', install_text: 'Add to your home screen for quick access', install_btn: 'Install',
+      // Notifications
+      notif_body: '{name} is due today'
     },
 
     // ======================== TURKISH ========================
@@ -117,7 +119,8 @@
       date_today: 'Bugün', date_tomorrow: 'Yarın', date_yesterday: 'Dün',
       confirm_delete: '"{name}" silinsin mi?',
       btn_undo: 'Geri al', btn_mark_done: 'Tamamlandı olarak işaretle', btn_undo_completion: 'Geri al', btn_delete_task: 'Görevi sil',
-      install_title: 'RecurKit\'i Yükle', install_text: 'Hızlı erişim için ana ekranınıza ekleyin', install_btn: 'Yükle'
+      install_title: 'RecurKit\'i Yükle', install_text: 'Hızlı erişim için ana ekranınıza ekleyin', install_btn: 'Yükle',
+      notif_body: '{name} bugün yapılmalı'
     },
 
     // ======================== GERMAN ========================
@@ -165,7 +168,8 @@
       date_today: 'Heute', date_tomorrow: 'Morgen', date_yesterday: 'Gestern',
       confirm_delete: '"{name}" löschen?',
       btn_undo: 'Rückgängig', btn_mark_done: 'Als erledigt markieren', btn_undo_completion: 'Rückgängig', btn_delete_task: 'Aufgabe löschen',
-      install_title: 'RecurKit installieren', install_text: 'Zum Startbildschirm hinzufügen', install_btn: 'Installieren'
+      install_title: 'RecurKit installieren', install_text: 'Zum Startbildschirm hinzufügen', install_btn: 'Installieren',
+      notif_body: '{name} ist heute fällig'
     },
 
     // ======================== FRENCH ========================
@@ -213,7 +217,8 @@
       date_today: 'Aujourd\u2019hui', date_tomorrow: 'Demain', date_yesterday: 'Hier',
       confirm_delete: 'Supprimer « {name} »\u00A0?',
       btn_undo: 'Annuler', btn_mark_done: 'Marquer comme fait', btn_undo_completion: 'Annuler', btn_delete_task: 'Supprimer la tâche',
-      install_title: 'Installer RecurKit', install_text: 'Ajouter à l\u2019écran d\u2019accueil pour un accès rapide', install_btn: 'Installer'
+      install_title: 'Installer RecurKit', install_text: 'Ajouter à l\u2019écran d\u2019accueil pour un accès rapide', install_btn: 'Installer',
+      notif_body: '{name} est pr\u00e9vu aujourd\u2019hui'
     }
   };
 

@@ -30,8 +30,8 @@
     <div class="topbar-inner">
       <a href="index.html" class="logo">⟳ <span>RecurKit</span></a>
       <nav class="topnav">
-        <a href="about.html" data-i18n="nav_about">About</a>
-        <a href="privacy.html" data-i18n="nav_privacy">Privacy</a>
+        <a href="about.html" class="topnav-link" data-i18n="nav_about">About</a>
+        <a href="privacy.html" class="topnav-link" data-i18n="nav_privacy">Privacy</a>
         <select id="langSelect" class="lang-select" aria-label="Language">
           <option value="en">🇬🇧 EN</option>
           <option value="tr">🇹🇷 TR</option>
@@ -42,13 +42,13 @@
     </div>
   </header>
 
-  <!-- ===== HERO ===== -->
+  <!-- ===== HERO (desktop only) ===== -->
   <section class="hero">
     <h1 data-i18n-html="hero_title">Your recurring tasks.<br>Dead simple.</h1>
     <p data-i18n="hero_sub">No projects, no boards, no teams. Just the stuff you need to do — on repeat.</p>
   </section>
 
-  <!-- ===== MOBILE STATS BAR (visible only on mobile) ===== -->
+  <!-- ===== MOBILE STATS BAR ===== -->
   <div class="mobile-stats">
     <div class="mobile-stat">
       <span class="mobile-stat-num" id="mStatToday">0</span>
@@ -74,64 +74,67 @@
     <!-- ===== CONTENT ===== -->
     <main class="content">
 
-      <!-- Add Task Form -->
-      <div class="card add-task-card" id="addTaskCard">
-        <h2 data-i18n="new_task">+ New Recurring Task</h2>
-        <form id="taskForm" autocomplete="off">
-          <div class="form-row">
-            <input type="text" id="taskName" data-i18n-placeholder="placeholder" placeholder='e.g. "Send invoice to client"' required>
-          </div>
-          <div class="form-row form-row-split">
-            <div class="form-group">
-              <label for="frequency" data-i18n="label_repeats">Repeats</label>
-              <select id="frequency">
-                <option value="daily" data-i18n="freq_daily">Every day</option>
-                <option value="weekly" data-i18n="freq_weekly">Every week</option>
-                <option value="monthly" selected data-i18n="freq_monthly">Every month</option>
-                <option value="yearly" data-i18n="freq_yearly">Every year</option>
-                <option value="once" data-i18n="freq_once">One time only</option>
-              </select>
+      <!-- Add Task — desktop: inline card; mobile: lives inside bottom sheet -->
+      <div class="bottom-sheet" id="bottomSheet">
+        <div class="sheet-handle"></div>
+        <div class="card add-task-card" id="addTaskCard">
+          <h2 data-i18n="new_task">+ New Recurring Task</h2>
+          <form id="taskForm" autocomplete="off">
+            <div class="form-row">
+              <input type="text" id="taskName" data-i18n-placeholder="placeholder" placeholder='e.g. "Send invoice to client"' required>
             </div>
-            <div class="form-group" id="dayOfWeekGroup" style="display:none">
-              <label for="dayOfWeek" data-i18n="label_day">Day</label>
-              <select id="dayOfWeek">
-                <option value="1" data-i18n="day_mon">Monday</option>
-                <option value="2" data-i18n="day_tue">Tuesday</option>
-                <option value="3" data-i18n="day_wed">Wednesday</option>
-                <option value="4" data-i18n="day_thu">Thursday</option>
-                <option value="5" data-i18n="day_fri">Friday</option>
-                <option value="6" data-i18n="day_sat">Saturday</option>
-                <option value="0" data-i18n="day_sun">Sunday</option>
-              </select>
+            <div class="form-row form-row-split">
+              <div class="form-group">
+                <label for="frequency" data-i18n="label_repeats">Repeats</label>
+                <select id="frequency">
+                  <option value="daily" data-i18n="freq_daily">Every day</option>
+                  <option value="weekly" data-i18n="freq_weekly">Every week</option>
+                  <option value="monthly" selected data-i18n="freq_monthly">Every month</option>
+                  <option value="yearly" data-i18n="freq_yearly">Every year</option>
+                  <option value="once" data-i18n="freq_once">One time only</option>
+                </select>
+              </div>
+              <div class="form-group" id="dayOfWeekGroup" style="display:none">
+                <label for="dayOfWeek" data-i18n="label_day">Day</label>
+                <select id="dayOfWeek">
+                  <option value="1" data-i18n="day_mon">Monday</option>
+                  <option value="2" data-i18n="day_tue">Tuesday</option>
+                  <option value="3" data-i18n="day_wed">Wednesday</option>
+                  <option value="4" data-i18n="day_thu">Thursday</option>
+                  <option value="5" data-i18n="day_fri">Friday</option>
+                  <option value="6" data-i18n="day_sat">Saturday</option>
+                  <option value="0" data-i18n="day_sun">Sunday</option>
+                </select>
+              </div>
+              <div class="form-group" id="dayOfMonthGroup">
+                <label for="dayOfMonth" data-i18n="label_day_of_month">Day of month</label>
+                <select id="dayOfMonth"></select>
+              </div>
+              <div class="form-group" id="monthGroup" style="display:none">
+                <label for="monthSelect" data-i18n="label_month">Month</label>
+                <select id="monthSelect">
+                  <option value="0" data-i18n="month_0">January</option>
+                  <option value="1" data-i18n="month_1">February</option>
+                  <option value="2" data-i18n="month_2">March</option>
+                  <option value="3" data-i18n="month_3">April</option>
+                  <option value="4" data-i18n="month_4">May</option>
+                  <option value="5" data-i18n="month_5">June</option>
+                  <option value="6" data-i18n="month_6">July</option>
+                  <option value="7" data-i18n="month_7">August</option>
+                  <option value="8" data-i18n="month_8">September</option>
+                  <option value="9" data-i18n="month_9">October</option>
+                  <option value="10" data-i18n="month_10">November</option>
+                  <option value="11" data-i18n="month_11">December</option>
+                </select>
+              </div>
+              <div class="form-group" id="onceDateGroup" style="display:none">
+                <label for="onceDate" data-i18n="label_date">Date</label>
+                <input type="date" id="onceDate">
+              </div>
             </div>
-            <div class="form-group" id="dayOfMonthGroup">
-              <label for="dayOfMonth" data-i18n="label_day_of_month">Day of month</label>
-              <select id="dayOfMonth"></select>
-            </div>
-            <div class="form-group" id="monthGroup" style="display:none">
-              <label for="monthSelect" data-i18n="label_month">Month</label>
-              <select id="monthSelect">
-                <option value="0" data-i18n="month_0">January</option>
-                <option value="1" data-i18n="month_1">February</option>
-                <option value="2" data-i18n="month_2">March</option>
-                <option value="3" data-i18n="month_3">April</option>
-                <option value="4" data-i18n="month_4">May</option>
-                <option value="5" data-i18n="month_5">June</option>
-                <option value="6" data-i18n="month_6">July</option>
-                <option value="7" data-i18n="month_7">August</option>
-                <option value="8" data-i18n="month_8">September</option>
-                <option value="9" data-i18n="month_9">October</option>
-                <option value="10" data-i18n="month_10">November</option>
-                <option value="11" data-i18n="month_11">December</option>
-              </select>
-            </div>
-            <div class="form-group" id="onceDateGroup" style="display:none">
-              <label for="onceDate" data-i18n="label_date">Date</label>
-              <input type="date" id="onceDate">
-            </div>
-          </div>
-          <button type="submit" class="btn-primary" data-i18n="btn_add">Add Task</button>
-        </form>
+            <button type="submit" class="btn-primary" data-i18n="btn_add">Add Task</button>
+          </form>
+        </div>
       </div>
 
       <!-- Filters -->
@@ -188,8 +191,14 @@
     </div>
   </footer>
 
+  <!-- ===== Sheet Overlay (mobile bottom sheet backdrop) ===== -->
+  <div class="sheet-overlay" id="sheetOverlay"></div>
+
   <!-- ===== FAB: floating add button (mobile) ===== -->
-  <button class="fab" id="fabAdd" aria-label="Add new task">+</button>
+  <button class="fab" id="fabAdd" aria-label="Add new task">
+    <svg class="fab-icon fab-icon-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    <svg class="fab-icon fab-icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="6" y1="18" x2="18" y2="6"/></svg>
+  </button>
 
   <!-- Capacitor bridge — auto-injected in native builds, no-op in browser -->
   <script src="capacitor.js" onerror="/* not native, ignore */"></script>
