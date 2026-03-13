@@ -1296,8 +1296,10 @@ body.sheet-open .fab {
   /* Show menu button white on mobile */
   .menu-btn { color: rgba(255,255,255,.9); }
   .menu-btn:hover { background: rgba(255,255,255,.15); }
-  .topnav a { color: rgba(255,255,255,.85); }
-  .topnav a:hover { color: #fff; }
+  .topnav > a { color: rgba(255,255,255,.85); }
+  .topnav > a:hover { color: #fff; }
+  .menu-dropdown a.menu-item { color: var(--text); }
+  .menu-dropdown a.menu-item:hover { color: var(--primary); }
 
   /* --- Hide hero on mobile --- */
   .hero { display: none; }
@@ -1471,8 +1473,8 @@ body.sheet-open .fab {
   .topbar-inner { height: 48px; }
   .logo { color: #fff; }
   .logo-text { display: none; }
-  .topnav a { color: rgba(255,255,255,.8); }
-  .topnav a:hover { color: #fff; }
+  .topnav > a { color: rgba(255,255,255,.8); }
+  .topnav > a:hover { color: #fff; }
   .topbar-search input {
     background: rgba(255,255,255,.15);
     border-color: rgba(255,255,255,.2);
