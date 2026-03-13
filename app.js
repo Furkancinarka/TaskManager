@@ -103,7 +103,7 @@
   var onceDateInput = document.getElementById('onceDate');
   var taskTimeInput = document.getElementById('taskTime');
   var fullDayCheckbox = document.getElementById('fullDay');
-  var timeGroup = document.querySelector('.form-group-time');
+  var timeGroup = document.getElementById('timeInputWrap');
   var taskListEl = document.getElementById('taskList');
   var emptyStateEl = document.getElementById('emptyState');
   var filterBtns = document.querySelectorAll('.filter-btn');

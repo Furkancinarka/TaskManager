@@ -144,17 +144,15 @@
                 <input type="date" id="onceDate">
               </div>
             </div>
-            <div class="form-row form-row-split">
-              <div class="form-group form-group-time">
-                <label for="taskTime" data-i18n="label_time">Time</label>
+            <div class="form-row time-row">
+              <label class="fullday-toggle">
+                <span class="fullday-label" data-i18n="label_fullday">Full day</span>
+                <input type="checkbox" id="fullDay" checked>
+                <span class="fullday-slider"></span>
+              </label>
+              <div class="time-input-wrap" id="timeInputWrap">
+                <label for="taskTime" class="time-label" data-i18n="label_time">Time</label>
                 <input type="time" id="taskTime" value="09:00">
-              </div>
-              <div class="form-group form-group-fullday">
-                <label class="fullday-toggle">
-                  <input type="checkbox" id="fullDay" checked>
-                  <span class="fullday-slider"></span>
-                  <span class="fullday-label" data-i18n="label_fullday">Full day</span>
-                </label>
               </div>
             </div>
             <button type="submit" class="btn-primary" data-i18n="btn_add">Add Task</button>
