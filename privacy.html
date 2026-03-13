@@ -25,6 +25,8 @@
     })();
   </script>
   <style>
+    /* Privacy page — hardcoded colors to prevent WebView override */
+    body { background: #f5f6f8 !important; color: #1a1a2e !important; }
     .privacy-content {
       max-width: 520px;
       margin: 0 auto;
@@ -41,41 +43,42 @@
       font-size: 1.4rem;
       font-weight: 700;
       margin-bottom: 6px;
+      color: #1a1a2e !important;
     }
     .privacy-date {
       font-size: .8rem;
-      color: var(--text-muted);
+      color: #6b7280 !important;
       font-weight: 500;
     }
     .privacy-summary {
       background: rgba(79,70,229,.06);
       border: 1px solid rgba(79,70,229,.15);
-      border-radius: var(--radius);
+      border-radius: 12px;
       padding: 16px 18px;
       text-align: center;
     }
     .privacy-summary p {
       font-size: .9rem;
       font-weight: 500;
-      color: var(--primary);
+      color: #4f46e5 !important;
       line-height: 1.5;
       margin: 0;
     }
     .privacy-section {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
+      background: #ffffff !important;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
       padding: 18px 18px;
     }
     .privacy-section h2 {
       font-size: .9rem;
       font-weight: 700;
       margin-bottom: 10px;
-      color: var(--text);
+      color: #1a1a2e !important;
     }
     .privacy-section p {
       font-size: .85rem;
-      color: var(--text-muted);
+      color: #6b7280 !important;
       line-height: 1.6;
       margin-bottom: 10px;
     }
@@ -87,7 +90,7 @@
     }
     .privacy-section li {
       font-size: .85rem;
-      color: var(--text-muted);
+      color: #6b7280 !important;
       line-height: 1.6;
       padding: 5px 0 5px 20px;
       position: relative;
@@ -100,28 +103,42 @@
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: var(--primary);
+      background: #4f46e5;
     }
-    .privacy-section strong { color: var(--text); font-weight: 600; }
+    .privacy-section strong { color: #1a1a2e !important; font-weight: 600; }
     .privacy-section code {
-      background: var(--bg);
+      background: #f5f6f8;
+      color: #1a1a2e !important;
       padding: 1px 5px;
       border-radius: 4px;
       font-size: .82em;
     }
+    .privacy-section a { color: #4f46e5 !important; }
     .privacy-footer {
       text-align: center;
       padding: 8px 16px 32px;
       font-size: .78rem;
-      color: var(--text-muted);
+      color: #6b7280 !important;
     }
 
+    /* Dark mode overrides */
+    html.dark body { background: #0f1117 !important; color: #e5e7eb !important; }
+    html.dark .privacy-header h1 { color: #e5e7eb !important; }
+    html.dark .privacy-date { color: #9ca3af !important; }
     html.dark .privacy-summary {
       background: rgba(129,140,248,.08);
       border-color: rgba(129,140,248,.2);
     }
-    html.dark .privacy-summary p { color: var(--primary); }
-    html.dark .privacy-section code { background: var(--bg); color: var(--text); }
+    html.dark .privacy-summary p { color: #818cf8 !important; }
+    html.dark .privacy-section { background: #1a1d2e !important; border-color: #2a2d3e; }
+    html.dark .privacy-section h2 { color: #e5e7eb !important; }
+    html.dark .privacy-section p { color: #9ca3af !important; }
+    html.dark .privacy-section li { color: #9ca3af !important; }
+    html.dark .privacy-section li::before { background: #818cf8; }
+    html.dark .privacy-section strong { color: #e5e7eb !important; }
+    html.dark .privacy-section code { background: #0f1117; color: #e5e7eb !important; }
+    html.dark .privacy-section a { color: #818cf8 !important; }
+    html.dark .privacy-footer { color: #9ca3af !important; }
 
     @media (max-width: 600px) {
       .privacy-header { padding: 24px 16px 12px; }
