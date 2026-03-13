@@ -86,8 +86,9 @@ a:hover { text-decoration: underline; }
 .topbar-icon {
   width: 34px;
   height: 34px;
-  border-radius: 8px;
-  object-fit: cover;
+  border-radius: 0;
+  object-fit: contain;
+  background: transparent;
 }
 .logo-text {
   font-size: 1.15rem;
@@ -1259,7 +1260,8 @@ body.sheet-open .fab {
   .topbar-icon {
     width: 32px;
     height: 32px;
-    border-radius: 8px;
+    border-radius: 0;
+    background: transparent;
   }
   .topnav-link { display: none; }
 
