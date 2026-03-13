@@ -30,6 +30,28 @@
 
   // ---- Wire events ----
 
+  // Theme selector
+  var themeSelect = document.getElementById('themeSelect');
+  if (themeSelect) {
+    themeSelect.value = RK.getTheme();
+    themeSelect.addEventListener('change', function () {
+      RK.setTheme(this.value);
+    });
+    // Listen for system preference changes (for auto mode)
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () {
+      if (RK.getTheme() === 'auto') RK.applyTheme('auto');
+    });
+  }
+
+  // Search input
+  var searchInput = document.getElementById('searchInput');
+  if (searchInput) {
+    searchInput.addEventListener('input', function () {
+      RK.searchQuery = this.value.trim();
+      RK.render();
+    });
+  }
+
   // Frequency selector
   document.getElementById('frequency').addEventListener('change', RK.updateFormFields);
 

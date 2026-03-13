@@ -18,6 +18,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <script>
+    (function(){
+      var t = localStorage.getItem('recurkit_theme') || 'auto';
+      var dark = t === 'dark' || (t === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      if (dark) document.documentElement.classList.add('dark');
+    })();
+  </script>
   <style>
     .privacy-content {
       max-width: 520px;
@@ -110,14 +117,12 @@
       color: var(--text-muted);
     }
 
-    @media (prefers-color-scheme: dark) {
-      .privacy-summary {
-        background: rgba(129,140,248,.08);
-        border-color: rgba(129,140,248,.2);
-      }
-      .privacy-summary p { color: var(--primary); }
-      .privacy-section code { background: var(--bg); color: var(--text); }
+    html.dark .privacy-summary {
+      background: rgba(129,140,248,.08);
+      border-color: rgba(129,140,248,.2);
     }
+    html.dark .privacy-summary p { color: var(--primary); }
+    html.dark .privacy-section code { background: var(--bg); color: var(--text); }
 
     @media (max-width: 600px) {
       .privacy-header { padding: 24px 16px 12px; }

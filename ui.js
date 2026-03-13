@@ -138,6 +138,14 @@
     var filtered = RK.getFilteredTasks();
     var todayStr = RK.formatDate(new Date());
 
+    // Apply search filter
+    if (RK.searchQuery) {
+      var q = RK.searchQuery.toLowerCase();
+      filtered = filtered.filter(function (task) {
+        return task.name.toLowerCase().indexOf(q) !== -1;
+      });
+    }
+
     filtered.sort(function (a, b) {
       var aComp = a.completedDates.includes(todayStr) ? 1 : 0;
       var bComp = b.completedDates.includes(todayStr) ? 1 : 0;

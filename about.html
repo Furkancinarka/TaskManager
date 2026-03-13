@@ -18,6 +18,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <script>
+    (function(){
+      var t = localStorage.getItem('recurkit_theme') || 'auto';
+      var dark = t === 'dark' || (t === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      if (dark) document.documentElement.classList.add('dark');
+    })();
+  </script>
   <style>
     /* About page specific styles */
     .about-hero {
@@ -130,16 +137,14 @@
       line-height: 1.6;
     }
 
-    @media (prefers-color-scheme: dark) {
-      .about-icon { box-shadow: 0 8px 24px rgba(129,140,248,.2); }
-      .about-row:hover { background: rgba(129,140,248,.06); }
-      .about-row-icon.blue { background: #1e3a5f; color: #93c5fd; }
-      .about-row-icon.green { background: #064e3b; color: #6ee7b7; }
-      .about-row-icon.purple { background: #2e1065; color: #c4b5fd; }
-      .about-row-icon.yellow { background: #451a03; color: #fcd34d; }
-      .about-row-icon.red { background: #450a0a; color: #fca5a5; }
-      .about-row-icon.gray { background: #1f2937; color: #9ca3af; }
-    }
+    html.dark .about-icon { box-shadow: 0 8px 24px rgba(129,140,248,.2); }
+    html.dark .about-row:hover { background: rgba(129,140,248,.06); }
+    html.dark .about-row-icon.blue { background: #1e3a5f; color: #93c5fd; }
+    html.dark .about-row-icon.green { background: #064e3b; color: #6ee7b7; }
+    html.dark .about-row-icon.purple { background: #2e1065; color: #c4b5fd; }
+    html.dark .about-row-icon.yellow { background: #451a03; color: #fcd34d; }
+    html.dark .about-row-icon.red { background: #450a0a; color: #fca5a5; }
+    html.dark .about-row-icon.gray { background: #1f2937; color: #9ca3af; }
 
     @media (max-width: 600px) {
       .about-hero { padding: 28px 16px 20px; }

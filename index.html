@@ -22,13 +22,29 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 
+  <!-- Early theme (avoid flash of wrong theme) -->
+  <script>
+    (function(){
+      var t = localStorage.getItem('recurkit_theme') || 'auto';
+      var dark = t === 'dark' || (t === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      if (dark) document.documentElement.classList.add('dark');
+    })();
+  </script>
+
 </head>
 <body>
 
   <!-- ===== TOP NAV ===== -->
   <header class="topbar">
     <div class="topbar-inner">
-      <a href="index.html" class="logo">⟳ <span>RecurKit</span></a>
+      <a href="index.html" class="logo">
+        <img src="icons/icon.png" class="topbar-icon" alt="RecurKit">
+        <span class="logo-text">RecurKit</span>
+      </a>
+      <div class="topbar-search">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="searchInput" data-i18n-placeholder="search_placeholder" placeholder="Search tasks..." autocomplete="off">
+      </div>
       <nav class="topnav">
         <a href="about.html" class="topnav-link" data-i18n="nav_about">About</a>
         <a href="privacy.html" class="topnav-link" data-i18n="nav_privacy">Privacy</a>
@@ -49,6 +65,14 @@
                 <option value="fr">Français</option>
               </select>
             </div>
+            <div class="menu-lang-row">
+              <span class="menu-lang-label" data-i18n="menu_theme">Theme</span>
+              <select id="themeSelect" class="menu-lang-select" aria-label="Theme">
+                <option value="auto" data-i18n="theme_auto">Auto</option>
+                <option value="light" data-i18n="theme_light">Light</option>
+                <option value="dark" data-i18n="theme_dark">Dark</option>
+              </select>
+            </div>
             <div class="menu-sep"></div>
             <a href="about.html" class="menu-item" data-i18n="nav_about">About</a>
             <a href="privacy.html" class="menu-item" data-i18n="nav_privacy">Privacy</a>
@@ -63,26 +87,6 @@
     <h1 data-i18n-html="hero_title">Your recurring tasks.<br>Dead simple.</h1>
     <p data-i18n="hero_sub">No projects, no boards, no teams. Just the stuff you need to do — on repeat.</p>
   </section>
-
-  <!-- ===== MOBILE STATS BAR ===== -->
-  <div class="mobile-stats">
-    <div class="mobile-stat">
-      <span class="mobile-stat-num" id="mStatToday">0</span>
-      <span class="mobile-stat-label" data-i18n="stat_due">Due</span>
-    </div>
-    <div class="mobile-stat mobile-stat-danger">
-      <span class="mobile-stat-num" id="mStatOverdue">0</span>
-      <span class="mobile-stat-label" data-i18n="stat_overdue">Overdue</span>
-    </div>
-    <div class="mobile-stat mobile-stat-success">
-      <span class="mobile-stat-num" id="mStatDone">0</span>
-      <span class="mobile-stat-label" data-i18n="stat_done">Done</span>
-    </div>
-    <div class="mobile-stat">
-      <span class="mobile-stat-num" id="mStatTotal">0</span>
-      <span class="mobile-stat-label" data-i18n="stat_total">Total</span>
-    </div>
-  </div>
 
   <!-- ===== MAIN LAYOUT ===== -->
   <div class="main-layout">
@@ -227,6 +231,26 @@
       </div>
     </aside>
 
+  </div>
+
+  <!-- ===== BOTTOM STATS (subtle, mobile) ===== -->
+  <div class="bottom-stats" id="bottomStats">
+    <div class="bottom-stat">
+      <span class="bottom-stat-num" id="mStatToday">0</span>
+      <span class="bottom-stat-label" data-i18n="stat_due">Due</span>
+    </div>
+    <div class="bottom-stat bottom-stat-danger">
+      <span class="bottom-stat-num" id="mStatOverdue">0</span>
+      <span class="bottom-stat-label" data-i18n="stat_overdue">Overdue</span>
+    </div>
+    <div class="bottom-stat bottom-stat-success">
+      <span class="bottom-stat-num" id="mStatDone">0</span>
+      <span class="bottom-stat-label" data-i18n="stat_done">Done</span>
+    </div>
+    <div class="bottom-stat">
+      <span class="bottom-stat-num" id="mStatTotal">0</span>
+      <span class="bottom-stat-label" data-i18n="stat_total">Total</span>
+    </div>
   </div>
 
   <!-- ===== FOOTER ===== -->

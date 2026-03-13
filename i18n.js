@@ -79,7 +79,8 @@
       notif_body: '{name} is due today',
       notif_body_time: '{name} is due at {time} -- 30 min heads up!',
       // Menu
-      menu_export: 'Export Data', menu_import: 'Import Data', menu_language: 'Language',
+      menu_export: 'Export Data', menu_import: 'Import Data', menu_language: 'Language', menu_theme: 'Theme',
+      theme_auto: 'Auto', theme_light: 'Light', theme_dark: 'Dark',
       // Data section
       data_title: 'Your Data',
       data_warn: 'Tasks are stored on this device only. Export regularly to keep a backup.',
@@ -109,7 +110,8 @@
       // Backup reminder
       backup_reminder_text: 'Your tasks are only stored on this device. Export a backup to keep them safe.',
       backup_btn_export: 'Export now',
-      backup_btn_later: 'Later'
+      backup_btn_later: 'Later',
+      search_placeholder: 'Search tasks...'
     },
 
     // ======================== TURKISH ========================
@@ -165,7 +167,8 @@
       install_title: 'RecurKit\'i Yükle', install_text: 'Hızlı erişim için ana ekranınıza ekleyin', install_btn: 'Yükle',
       notif_body: '{name} bugün yapılmalı',
       notif_body_time: '{name} saat {time} -- 30 dk sonra!',
-      menu_export: 'Veriyi D\u0131\u015fa Aktar', menu_import: 'Veri \u0130\u00e7e Aktar', menu_language: 'Dil',
+      menu_export: 'Veriyi D\u0131\u015fa Aktar', menu_import: 'Veri \u0130\u00e7e Aktar', menu_language: 'Dil', menu_theme: 'Tema',
+      theme_auto: 'Otomatik', theme_light: 'A\u00e7\u0131k', theme_dark: 'Koyu',
       data_title: 'Verileriniz',
       data_warn: 'G\u00f6revler sadece bu cihazda saklan\u0131r. D\u00fczenli olarak yedek al\u0131n.',
       toast_exported: 'Yedek kaydedildi!',
@@ -189,7 +192,8 @@
       battery_text: 'Baz\u0131 telefonlar arka plan uygulamalar\u0131n\u0131 kapat\u0131r. Ayarlar > Uygulamalar > RecurKit > Pil b\u00f6l\u00fcm\u00fcnden "S\u0131n\u0131rs\u0131z" olarak ayarlay\u0131n.',
       backup_reminder_text: 'G\u00f6revleriniz sadece bu cihazda saklan\u0131yor. Güvende tutmak i\u00e7in yedek al\u0131n.',
       backup_btn_export: '\u015eimdi yedekle',
-      backup_btn_later: 'Sonra'
+      backup_btn_later: 'Sonra',
+      search_placeholder: 'G\u00f6rev ara...'
     },
 
     // ======================== GERMAN ========================
@@ -245,7 +249,8 @@
       install_title: 'RecurKit installieren', install_text: 'Zum Startbildschirm hinzufügen', install_btn: 'Installieren',
       notif_body: '{name} ist heute fällig',
       notif_body_time: '{name} ist um {time} fällig -- in 30 Min!',
-      menu_export: 'Daten exportieren', menu_import: 'Daten importieren', menu_language: 'Sprache',
+      menu_export: 'Daten exportieren', menu_import: 'Daten importieren', menu_language: 'Sprache', menu_theme: 'Design',
+      theme_auto: 'Automatisch', theme_light: 'Hell', theme_dark: 'Dunkel',
       data_title: 'Ihre Daten',
       data_warn: 'Aufgaben werden nur auf diesem Ger\u00e4t gespeichert. Exportieren Sie regelm\u00e4\u00dfig ein Backup.',
       toast_exported: 'Backup gespeichert!',
@@ -269,7 +274,8 @@
       battery_text: 'Einige Telefone beenden Hintergrund-Apps. \u00d6ffnen Sie Einstellungen > Apps > RecurKit > Akku und setzen Sie auf "Uneingeschr\u00e4nkt".',
       backup_reminder_text: 'Ihre Aufgaben sind nur auf diesem Ger\u00e4t gespeichert. Exportieren Sie ein Backup, um sie zu sichern.',
       backup_btn_export: 'Jetzt exportieren',
-      backup_btn_later: 'Sp\u00e4ter'
+      backup_btn_later: 'Sp\u00e4ter',
+      search_placeholder: 'Aufgaben suchen...'
     },
 
     // ======================== FRENCH ========================
@@ -325,7 +331,8 @@
       install_title: 'Installer RecurKit', install_text: 'Ajouter à l\u2019écran d\u2019accueil pour un accès rapide', install_btn: 'Installer',
       notif_body: '{name} est pr\u00e9vu aujourd\u2019hui',
       notif_body_time: '{name} est pr\u00e9vu \u00e0 {time} -- dans 30 min!',
-      menu_export: 'Exporter les donn\u00e9es', menu_import: 'Importer les donn\u00e9es', menu_language: 'Langue',
+      menu_export: 'Exporter les donn\u00e9es', menu_import: 'Importer les donn\u00e9es', menu_language: 'Langue', menu_theme: 'Th\u00e8me',
+      theme_auto: 'Auto', theme_light: 'Clair', theme_dark: 'Sombre',
       data_title: 'Vos donn\u00e9es',
       data_warn: 'Les t\u00e2ches sont stock\u00e9es uniquement sur cet appareil. Exportez r\u00e9guli\u00e8rement une sauvegarde.',
       toast_exported: 'Sauvegarde enregistr\u00e9e\u00a0!',
@@ -349,7 +356,8 @@
       battery_text: 'Certains t\u00e9l\u00e9phones ferment les apps en arri\u00e8re-plan. Ouvrez Param\u00e8tres > Apps > RecurKit > Batterie et choisissez "Non restreint".',
       backup_reminder_text: 'Vos t\u00e2ches sont uniquement sur cet appareil. Exportez une sauvegarde pour les prot\u00e9ger.',
       backup_btn_export: 'Exporter maintenant',
-      backup_btn_later: 'Plus tard'
+      backup_btn_later: 'Plus tard',
+      search_placeholder: 'Rechercher des t\u00e2ches...'
     }
   };
 

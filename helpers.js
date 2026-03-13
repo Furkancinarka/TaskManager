@@ -22,6 +22,25 @@
   // ---- Shared State ----
   RK.tasks = [];
   RK.currentFilter = 'today';
+  RK.searchQuery = '';
+
+  // ---- Theme Management ----
+  RK.THEME_KEY = 'recurkit_theme';
+
+  RK.getTheme = function () {
+    return localStorage.getItem(RK.THEME_KEY) || 'auto';
+  };
+
+  RK.applyTheme = function (theme) {
+    var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var isDark = theme === 'dark' || (theme === 'auto' && prefersDark);
+    document.documentElement.classList.toggle('dark', isDark);
+  };
+
+  RK.setTheme = function (theme) {
+    localStorage.setItem(RK.THEME_KEY, theme);
+    RK.applyTheme(theme);
+  };
 
   // ---- Haptic Feedback ----
   RK.hapticLight = function () {
