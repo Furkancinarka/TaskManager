@@ -97,6 +97,9 @@
   var dayOfMonthSelect = document.getElementById('dayOfMonth');
   var monthSelect = document.getElementById('monthSelect');
   var onceDateInput = document.getElementById('onceDate');
+  var taskTimeInput = document.getElementById('taskTime');
+  var fullDayCheckbox = document.getElementById('fullDay');
+  var timeGroup = document.querySelector('.form-group-time');
   var taskListEl = document.getElementById('taskList');
   var emptyStateEl = document.getElementById('emptyState');
   var filterBtns = document.querySelectorAll('.filter-btn');
@@ -123,6 +126,7 @@
   populateDayOfMonth();
   setTodayDefault();
   updateFormFields();
+  updateTimeVisibility();
   render();
 
   // Expose render so i18n can call it on language change
@@ -130,6 +134,20 @@
 
   // ---- Events ----
   freqSelect.addEventListener('change', updateFormFields);
+
+  // Full day toggle — show/hide time picker
+  if (fullDayCheckbox) {
+    fullDayCheckbox.addEventListener('change', updateTimeVisibility);
+  }
+
+  function updateTimeVisibility() {
+    if (!timeGroup) return;
+    if (fullDayCheckbox && fullDayCheckbox.checked) {
+      timeGroup.classList.add('hidden');
+    } else {
+      timeGroup.classList.remove('hidden');
+    }
+  }
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -292,10 +310,15 @@
     if (!name) return;
 
     var freq = freqSelect.value;
+    var isFullDay = fullDayCheckbox ? fullDayCheckbox.checked : true;
+    var taskTime = (!isFullDay && taskTimeInput) ? taskTimeInput.value : null;
+
     var task = {
       id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
       name: name,
       frequency: freq,
+      fullDay: isFullDay,
+      taskTime: taskTime,
       createdAt: new Date().toISOString(),
       completedDates: []
     };
@@ -319,6 +342,10 @@
     form.reset();
     setTodayDefault();
     updateFormFields();
+    // Reset time fields
+    if (fullDayCheckbox) fullDayCheckbox.checked = true;
+    if (taskTimeInput) taskTimeInput.value = '09:00';
+    updateTimeVisibility();
     showToast(t('toast_added'));
     hapticLight();
 
@@ -524,6 +551,14 @@
       freqBadge.textContent = freqLabel(task);
       metaDiv.appendChild(freqBadge);
 
+      // Show time if not full day
+      if (!task.fullDay && task.taskTime) {
+        var timeSpan = document.createElement('span');
+        timeSpan.className = 'task-time';
+        timeSpan.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ' + formatTime12(task.taskTime);
+        metaDiv.appendChild(timeSpan);
+      }
+
       if (isOverdue) {
         var badge = document.createElement('span');
         badge.className = 'task-badge badge-overdue';
@@ -654,6 +689,18 @@
     return n + (s[(v - 20) % 10] || s[v] || s[0]);
   }
 
+  // Format "HH:MM" 24h to 12h with AM/PM
+  function formatTime12(timeStr) {
+    if (!timeStr) return '';
+    var parts = timeStr.split(':');
+    var h = parseInt(parts[0]);
+    var m = parts[1];
+    var ampm = h >= 12 ? 'PM' : 'AM';
+    h = h % 12;
+    if (h === 0) h = 12;
+    return h + ':' + m + ' ' + ampm;
+  }
+
   function freqLabel(task) {
     if (task.frequency === 'daily') return t('flabel_daily');
     if (task.frequency === 'weekly') return t('flabel_weekly') + ' · ' + t('dayname_' + task.dayOfWeek);
@@ -730,7 +777,7 @@
     }).catch(function () { if (cb) cb(false); });
   }
 
-  // Schedule a notification for a task's next due date at 8:00 AM
+  // Schedule a notification for a task — 30 min before task time, or 8:00 AM if full day
   function scheduleTaskNotification(task) {
     if (!LocalNotif) return;
 
@@ -747,19 +794,37 @@
 
       // Parse the next due date
       var parts = task.nextDue.split('-');
-      var dueDate = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]), 8, 0, 0);
+      var notifDate;
 
-      // Don't schedule if the due date is in the past
-      if (dueDate.getTime() < Date.now()) return;
+      if (!task.fullDay && task.taskTime) {
+        // Specific time — notify 30 minutes before
+        var timeParts = task.taskTime.split(':');
+        var taskHour = parseInt(timeParts[0]);
+        var taskMin = parseInt(timeParts[1]);
+        notifDate = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]), taskHour, taskMin, 0);
+        // Subtract 30 minutes
+        notifDate.setMinutes(notifDate.getMinutes() - 30);
+      } else {
+        // Full day — notify at 8:00 AM on the due date
+        notifDate = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]), 8, 0, 0);
+      }
 
-      var bodyText = t('notif_body').replace('{name}', task.name);
+      // Don't schedule if the notification time is in the past
+      if (notifDate.getTime() < Date.now()) return;
+
+      var bodyText;
+      if (!task.fullDay && task.taskTime) {
+        bodyText = t('notif_body_time').replace('{name}', task.name).replace('{time}', formatTime12(task.taskTime));
+      } else {
+        bodyText = t('notif_body').replace('{name}', task.name);
+      }
 
       LocalNotif.schedule({
         notifications: [{
           title: 'RecurKit',
           body: bodyText,
           id: notifId,
-          schedule: { at: dueDate },
+          schedule: { at: notifDate },
           sound: 'default',
           smallIcon: 'ic_stat_notify',
           largeIcon: 'ic_launcher',

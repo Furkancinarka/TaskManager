@@ -241,6 +241,101 @@ a:hover { text-decoration: underline; }
   outline: none;
   border-color: var(--primary);
 }
+
+/* ===== TIME INPUT ===== */
+.form-group input[type="time"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  font-size: 16px;
+  font-family: inherit;
+  background: var(--bg);
+  cursor: pointer;
+  transition: border-color .2s;
+  min-height: 44px;
+  color: var(--text);
+}
+.form-group input[type="time"]:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+/* ===== FULL DAY TOGGLE ===== */
+.form-group-fullday {
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 4px;
+}
+.fullday-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  min-height: 44px;
+  padding: 0 4px;
+}
+.fullday-toggle input[type="checkbox"] {
+  display: none;
+}
+.fullday-slider {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  background: var(--border);
+  border-radius: 12px;
+  transition: background .25s;
+  flex-shrink: 0;
+}
+.fullday-slider::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform .25s cubic-bezier(.4,0,.2,1);
+  box-shadow: 0 1px 3px rgba(0,0,0,.15);
+}
+.fullday-toggle input:checked + .fullday-slider {
+  background: var(--primary);
+}
+.fullday-toggle input:checked + .fullday-slider::after {
+  transform: translateX(20px);
+}
+.fullday-label {
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* Hide time input when full day is checked (controlled via JS) */
+.form-group-time.hidden {
+  display: none;
+}
+
+/* Task time display in meta */
+.task-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: .75rem;
+  font-weight: 600;
+  color: var(--primary);
+  background: rgba(79,70,229,.08);
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+.task-time svg {
+  width: 12px;
+  height: 12px;
+}
+
 .btn-primary {
   display: inline-flex;
   align-items: center;
@@ -892,7 +987,8 @@ body.sheet-open .fab {
   /* Form elements */
   .form-row input[type="text"],
   .form-group select,
-  .form-group input[type="date"] {
+  .form-group input[type="date"],
+  .form-group input[type="time"] {
     color: var(--text);
     background: var(--bg);
     border-color: var(--border);
@@ -902,9 +998,16 @@ body.sheet-open .fab {
     color: var(--text);
   }
   .form-group select:focus,
-  .form-group input[type="date"]:focus {
+  .form-group input[type="date"]:focus,
+  .form-group input[type="time"]:focus {
     background: var(--surface);
   }
+  /* Full day toggle dark */
+  .fullday-slider { background: var(--border); }
+  .fullday-slider::after { background: #e5e7eb; }
+  .fullday-label { color: var(--text-muted); }
+  /* Task time badge dark */
+  .task-time { background: rgba(129,140,248,.15); color: var(--primary); }
   .form-row input[type="text"]::placeholder {
     color: var(--text-muted);
     opacity: .7;

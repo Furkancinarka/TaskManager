@@ -21,6 +21,7 @@
       freq_daily: 'Every day', freq_weekly: 'Every week', freq_monthly: 'Every month',
       freq_yearly: 'Every year', freq_once: 'One time only',
       label_day: 'Day', label_day_of_month: 'Day of month', label_month: 'Month', label_date: 'Date',
+      label_time: 'Time', label_fullday: 'Full day',
       btn_add: 'Add Task',
       // Day names
       day_mon: 'Monday', day_tue: 'Tuesday', day_wed: 'Wednesday', day_thu: 'Thursday',
@@ -71,7 +72,8 @@
       // Install banner
       install_title: 'Install RecurKit', install_text: 'Add to your home screen for quick access', install_btn: 'Install',
       // Notifications
-      notif_body: '{name} is due today'
+      notif_body: '{name} is due today',
+      notif_body_time: '{name} is due at {time} -- 30 min heads up!'
     },
 
     // ======================== TURKISH ========================
@@ -86,6 +88,7 @@
       freq_daily: 'Her gün', freq_weekly: 'Her hafta', freq_monthly: 'Her ay',
       freq_yearly: 'Her yıl', freq_once: 'Tek seferlik',
       label_day: 'Gün', label_day_of_month: 'Ayın günü', label_month: 'Ay', label_date: 'Tarih',
+      label_time: 'Saat', label_fullday: 'Tüm gün',
       btn_add: 'Görev Ekle',
       day_mon: 'Pazartesi', day_tue: 'Salı', day_wed: 'Çarşamba', day_thu: 'Perşembe',
       day_fri: 'Cuma', day_sat: 'Cumartesi', day_sun: 'Pazar',
@@ -120,7 +123,8 @@
       confirm_delete: '"{name}" silinsin mi?',
       btn_undo: 'Geri al', btn_mark_done: 'Tamamlandı olarak işaretle', btn_undo_completion: 'Geri al', btn_delete_task: 'Görevi sil',
       install_title: 'RecurKit\'i Yükle', install_text: 'Hızlı erişim için ana ekranınıza ekleyin', install_btn: 'Yükle',
-      notif_body: '{name} bugün yapılmalı'
+      notif_body: '{name} bugün yapılmalı',
+      notif_body_time: '{name} saat {time} -- 30 dk sonra!'
     },
 
     // ======================== GERMAN ========================
@@ -135,6 +139,7 @@
       freq_daily: 'Jeden Tag', freq_weekly: 'Jede Woche', freq_monthly: 'Jeden Monat',
       freq_yearly: 'Jedes Jahr', freq_once: 'Einmalig',
       label_day: 'Tag', label_day_of_month: 'Tag des Monats', label_month: 'Monat', label_date: 'Datum',
+      label_time: 'Uhrzeit', label_fullday: 'Ganzer Tag',
       btn_add: 'Aufgabe hinzufügen',
       day_mon: 'Montag', day_tue: 'Dienstag', day_wed: 'Mittwoch', day_thu: 'Donnerstag',
       day_fri: 'Freitag', day_sat: 'Samstag', day_sun: 'Sonntag',
@@ -169,7 +174,8 @@
       confirm_delete: '"{name}" löschen?',
       btn_undo: 'Rückgängig', btn_mark_done: 'Als erledigt markieren', btn_undo_completion: 'Rückgängig', btn_delete_task: 'Aufgabe löschen',
       install_title: 'RecurKit installieren', install_text: 'Zum Startbildschirm hinzufügen', install_btn: 'Installieren',
-      notif_body: '{name} ist heute fällig'
+      notif_body: '{name} ist heute fällig',
+      notif_body_time: '{name} ist um {time} fällig -- in 30 Min!'
     },
 
     // ======================== FRENCH ========================
@@ -184,6 +190,7 @@
       freq_daily: 'Chaque jour', freq_weekly: 'Chaque semaine', freq_monthly: 'Chaque mois',
       freq_yearly: 'Chaque année', freq_once: 'Une seule fois',
       label_day: 'Jour', label_day_of_month: 'Jour du mois', label_month: 'Mois', label_date: 'Date',
+      label_time: 'Heure', label_fullday: 'Toute la journ\u00e9e',
       btn_add: 'Ajouter',
       day_mon: 'Lundi', day_tue: 'Mardi', day_wed: 'Mercredi', day_thu: 'Jeudi',
       day_fri: 'Vendredi', day_sat: 'Samedi', day_sun: 'Dimanche',
@@ -218,7 +225,8 @@
       confirm_delete: 'Supprimer « {name} »\u00A0?',
       btn_undo: 'Annuler', btn_mark_done: 'Marquer comme fait', btn_undo_completion: 'Annuler', btn_delete_task: 'Supprimer la tâche',
       install_title: 'Installer RecurKit', install_text: 'Ajouter à l\u2019écran d\u2019accueil pour un accès rapide', install_btn: 'Installer',
-      notif_body: '{name} est pr\u00e9vu aujourd\u2019hui'
+      notif_body: '{name} est pr\u00e9vu aujourd\u2019hui',
+      notif_body_time: '{name} est pr\u00e9vu \u00e0 {time} -- dans 30 min!'
     }
   };
 
