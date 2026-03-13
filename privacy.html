@@ -4,10 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
   <meta name="color-scheme" content="light dark">
-  <meta name="description" content="Privacy Policy for RecurKit — learn how we handle your data (spoiler: we don't collect any).">
+  <meta name="description" content="Privacy Policy for RecurKit.">
   <title>Privacy Policy — RecurKit</title>
 
-  <!-- PWA -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#4f46e5">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -19,149 +18,357 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <style>
+    .privacy-content {
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 0 16px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .privacy-header {
+      text-align: center;
+      padding: 32px 24px 16px;
+    }
+    .privacy-header h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .privacy-date {
+      font-size: .8rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .privacy-summary {
+      background: rgba(79,70,229,.06);
+      border: 1px solid rgba(79,70,229,.15);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      text-align: center;
+    }
+    .privacy-summary p {
+      font-size: .9rem;
+      font-weight: 500;
+      color: var(--primary);
+      line-height: 1.5;
+      margin: 0;
+    }
+    .privacy-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 18px;
+    }
+    .privacy-section h2 {
+      font-size: .9rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+    .privacy-section p {
+      font-size: .85rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+    .privacy-section p:last-child { margin-bottom: 0; }
+    .privacy-section ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .privacy-section li {
+      font-size: .85rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      padding: 5px 0 5px 20px;
+      position: relative;
+    }
+    .privacy-section li::before {
+      content: '';
+      position: absolute;
+      left: 4px;
+      top: 12px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--primary);
+    }
+    .privacy-section strong { color: var(--text); font-weight: 600; }
+    .privacy-section code {
+      background: var(--bg);
+      padding: 1px 5px;
+      border-radius: 4px;
+      font-size: .82em;
+    }
+    .privacy-footer {
+      text-align: center;
+      padding: 8px 16px 32px;
+      font-size: .78rem;
+      color: var(--text-muted);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .privacy-summary {
+        background: rgba(129,140,248,.08);
+        border-color: rgba(129,140,248,.2);
+      }
+      .privacy-summary p { color: var(--primary); }
+      .privacy-section code { background: var(--bg); color: var(--text); }
+    }
+
+    @media (max-width: 600px) {
+      .privacy-header { padding: 24px 16px 12px; }
+      .privacy-header h1 { font-size: 1.25rem; }
+      .privacy-content { padding: 0 12px 100px; }
+      .privacy-footer { padding-bottom: 100px; }
+    }
+  </style>
 </head>
 <body>
 
   <header class="topbar">
     <div class="topbar-inner">
-      <a href="index.html" class="logo">⟳ <span>RecurKit</span></a>
-      <nav class="topnav">
-        <a href="about.html" data-i18n="nav_about">About</a>
-        <a href="privacy.html" data-i18n="nav_privacy">Privacy</a>
-        <select id="langSelect" class="lang-select" aria-label="Language">
-          <option value="en">🇬🇧 EN</option>
-          <option value="tr">🇹🇷 TR</option>
-          <option value="de">🇩🇪 DE</option>
-          <option value="fr">🇫🇷 FR</option>
-        </select>
-      </nav>
+      <a href="index.html" class="logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="20" height="20" style="opacity:.7"><polyline points="15 18 9 12 15 6"/></svg>
+        <span data-i18n="nav_privacy_policy">Privacy Policy</span>
+      </a>
     </div>
   </header>
 
-  <div class="page-content">
-    <!-- ENGLISH -->
-    <article class="card prose lang-block" data-lang="en">
+  <!-- ENGLISH -->
+  <div class="lang-block" data-lang="en">
+    <div class="privacy-header">
       <h1>Privacy Policy</h1>
-      <p><em>Last updated: March 13, 2026</em></p>
-      <h2>The short version</h2>
-      <p>RecurKit does not collect, store, or transmit any personal data. Your tasks are saved in your browser's local storage and never leave your device.</p>
-      <h2>Data we collect</h2>
-      <p><strong>None.</strong> RecurKit is a client-side application. We do not have servers, databases, or user accounts. All data you enter stays in your browser.</p>
-      <h2>Local storage</h2>
-      <p>RecurKit uses your browser's <code>localStorage</code> feature to save your tasks. This data:</p>
-      <ul>
-        <li>Is stored only on your device</li>
-        <li>Is never transmitted to any server</li>
-        <li>Can be cleared at any time by clearing your browser data</li>
-        <li>Is not accessible to other websites</li>
-      </ul>
-      <h2>Cookies</h2>
-      <p>RecurKit does not use cookies. Period.</p>
-      <h2>Analytics</h2>
-      <p>RecurKit does not use any analytics or tracking services. We have no way to know who you are or what tasks you create.</p>
-      <h2>Children's privacy</h2>
-      <p>RecurKit is not directed at children under the age of 13. We do not knowingly collect any information from children.</p>
-      <h2>Changes to this policy</h2>
-      <p>We may update this privacy policy from time to time. Changes will be posted on this page with an updated revision date.</p>
-      <h2>Contact</h2>
-      <p>If you have questions about this privacy policy, you can reach us at: <strong>[your-email@example.com]</strong></p>
-    </article>
-
-    <!-- TURKISH -->
-    <article class="card prose lang-block" data-lang="tr" style="display:none">
-      <h1>Gizlilik Politikası</h1>
-      <p><em>Son güncelleme: 13 Mart 2026</em></p>
-      <h2>Kısa versiyon</h2>
-      <p>RecurKit hiçbir kişisel veri toplamaz, saklamaz veya iletmez. Görevleriniz tarayıcınızın yerel depolama alanında saklanır ve cihazınızdan asla çıkmaz.</p>
-      <h2>Topladığımız veriler</h2>
-      <p><strong>Hiçbiri.</strong> RecurKit istemci tarafında çalışan bir uygulamadır. Sunucumuz, veritabanımız veya kullanıcı hesaplarımız yoktur. Girdiğiniz tüm veriler tarayıcınızda kalır.</p>
-      <h2>Yerel depolama</h2>
-      <p>RecurKit görevlerinizi kaydetmek için tarayıcınızın <code>localStorage</code> özelliğini kullanır. Bu veriler:</p>
-      <ul>
-        <li>Yalnızca cihazınızda saklanır</li>
-        <li>Hiçbir sunucuya iletilmez</li>
-        <li>Tarayıcı verilerinizi temizleyerek her zaman silinebilir</li>
-        <li>Diğer web siteleri tarafından erişilemez</li>
-      </ul>
-      <h2>Çerezler</h2>
-      <p>RecurKit çerez kullanmaz. Nokta.</p>
-      <h2>Analitik</h2>
-      <p>RecurKit herhangi bir analitik veya izleme servisi kullanmaz. Kim olduğunuzu veya hangi görevleri oluşturduğunuzu bilmemizin hiçbir yolu yoktur.</p>
-      <h2>Çocukların gizliliği</h2>
-      <p>RecurKit 13 yaşın altındaki çocuklara yönelik değildir. Çocuklardan bilerek herhangi bir bilgi toplamayız.</p>
-      <h2>Bu politikadaki değişiklikler</h2>
-      <p>Bu gizlilik politikasını zaman zaman güncelleyebiliriz. Değişiklikler bu sayfada güncellenmiş bir tarihle yayınlanacaktır.</p>
-      <h2>İletişim</h2>
-      <p>Bu gizlilik politikası hakkında sorularınız varsa bize ulaşabilirsiniz: <strong>[your-email@example.com]</strong></p>
-    </article>
-
-    <!-- GERMAN -->
-    <article class="card prose lang-block" data-lang="de" style="display:none">
-      <h1>Datenschutzrichtlinie</h1>
-      <p><em>Letzte Aktualisierung: 13. März 2026</em></p>
-      <h2>Die Kurzversion</h2>
-      <p>RecurKit sammelt, speichert oder überträgt keine personenbezogenen Daten. Ihre Aufgaben werden im lokalen Speicher Ihres Browsers gespeichert und verlassen nie Ihr Gerät.</p>
-      <h2>Daten, die wir erheben</h2>
-      <p><strong>Keine.</strong> RecurKit ist eine clientseitige Anwendung. Wir haben keine Server, Datenbanken oder Benutzerkonten. Alle Daten, die Sie eingeben, bleiben in Ihrem Browser.</p>
-      <h2>Lokaler Speicher</h2>
-      <p>RecurKit nutzt die <code>localStorage</code>-Funktion Ihres Browsers, um Ihre Aufgaben zu speichern. Diese Daten:</p>
-      <ul>
-        <li>Werden nur auf Ihrem Gerät gespeichert</li>
-        <li>Werden niemals an einen Server übertragen</li>
-        <li>Können jederzeit durch Löschen Ihrer Browserdaten entfernt werden</li>
-        <li>Sind für andere Websites nicht zugänglich</li>
-      </ul>
-      <h2>Cookies</h2>
-      <p>RecurKit verwendet keine Cookies. Punkt.</p>
-      <h2>Analyse</h2>
-      <p>RecurKit verwendet keine Analyse- oder Tracking-Dienste. Wir haben keine Möglichkeit zu erfahren, wer Sie sind oder welche Aufgaben Sie erstellen.</p>
-      <h2>Datenschutz für Kinder</h2>
-      <p>RecurKit richtet sich nicht an Kinder unter 13 Jahren. Wir erheben wissentlich keine Informationen von Kindern.</p>
-      <h2>Änderungen dieser Richtlinie</h2>
-      <p>Wir können diese Datenschutzrichtlinie von Zeit zu Zeit aktualisieren. Änderungen werden auf dieser Seite mit einem aktualisierten Datum veröffentlicht.</p>
-      <h2>Kontakt</h2>
-      <p>Wenn Sie Fragen zu dieser Datenschutzrichtlinie haben, erreichen Sie uns unter: <strong>[your-email@example.com]</strong></p>
-    </article>
-
-    <!-- FRENCH -->
-    <article class="card prose lang-block" data-lang="fr" style="display:none">
-      <h1>Politique de confidentialité</h1>
-      <p><em>Dernière mise à jour : 13 mars 2026</em></p>
-      <h2>La version courte</h2>
-      <p>RecurKit ne collecte, ne stocke ni ne transmet aucune donnée personnelle. Vos tâches sont enregistrées dans le stockage local de votre navigateur et ne quittent jamais votre appareil.</p>
-      <h2>Données que nous collectons</h2>
-      <p><strong>Aucune.</strong> RecurKit est une application côté client. Nous n'avons ni serveurs, ni bases de données, ni comptes utilisateurs. Toutes les données que vous saisissez restent dans votre navigateur.</p>
-      <h2>Stockage local</h2>
-      <p>RecurKit utilise la fonctionnalité <code>localStorage</code> de votre navigateur pour enregistrer vos tâches. Ces données :</p>
-      <ul>
-        <li>Sont stockées uniquement sur votre appareil</li>
-        <li>Ne sont jamais transmises à un serveur</li>
-        <li>Peuvent être supprimées à tout moment en effaçant les données de votre navigateur</li>
-        <li>Ne sont pas accessibles aux autres sites web</li>
-      </ul>
-      <h2>Cookies</h2>
-      <p>RecurKit n'utilise pas de cookies. Point.</p>
-      <h2>Analyse</h2>
-      <p>RecurKit n'utilise aucun service d'analyse ou de suivi. Nous n'avons aucun moyen de savoir qui vous êtes ou quelles tâches vous créez.</p>
-      <h2>Confidentialité des enfants</h2>
-      <p>RecurKit ne s'adresse pas aux enfants de moins de 13 ans. Nous ne collectons sciemment aucune information auprès des enfants.</p>
-      <h2>Modifications de cette politique</h2>
-      <p>Nous pouvons mettre à jour cette politique de confidentialité de temps en temps. Les modifications seront publiées sur cette page avec une date de révision mise à jour.</p>
-      <h2>Contact</h2>
-      <p>Si vous avez des questions concernant cette politique de confidentialité, vous pouvez nous contacter à : <strong>[your-email@example.com]</strong></p>
-    </article>
+      <div class="privacy-date">Last updated: March 13, 2026</div>
+    </div>
+    <div class="privacy-content">
+      <div class="privacy-summary">
+        <p>RecurKit does not collect, store, or transmit any personal data. Everything stays on your device.</p>
+      </div>
+      <div class="privacy-section">
+        <h2>Data Collection</h2>
+        <p><strong>We collect nothing.</strong> RecurKit is a fully offline application. There are no servers, no databases, and no user accounts. All information you enter remains in your browser's local storage on your device.</p>
+      </div>
+      <div class="privacy-section">
+        <h2>Local Storage</h2>
+        <p>RecurKit uses <code>localStorage</code> to save your tasks. This data:</p>
+        <ul>
+          <li>Is stored only on your device</li>
+          <li>Is never transmitted to any server</li>
+          <li>Can be deleted by clearing browser/app data</li>
+          <li>Is not accessible to other apps or websites</li>
+        </ul>
+      </div>
+      <div class="privacy-section">
+        <h2>Permissions</h2>
+        <p>The app may request the following permissions:</p>
+        <ul>
+          <li><strong>Notifications</strong> -- to remind you about due tasks</li>
+          <li><strong>Vibration</strong> -- for haptic feedback on interactions</li>
+        </ul>
+        <p>No internet, camera, location, contacts, or storage access is required.</p>
+      </div>
+      <div class="privacy-section">
+        <h2>Cookies &amp; Analytics</h2>
+        <p>RecurKit does not use cookies, analytics, or any third-party tracking. We have no way to know who you are or what tasks you create.</p>
+      </div>
+      <div class="privacy-section">
+        <h2>Third-party Services</h2>
+        <p>RecurKit does not integrate with any third-party services. The only external resource loaded is the Inter font from Google Fonts (web version only).</p>
+      </div>
+      <div class="privacy-section">
+        <h2>Children's Privacy</h2>
+        <p>This app is not directed at children under 13. We do not knowingly collect any information from anyone, including children.</p>
+      </div>
+      <div class="privacy-section">
+        <h2>Changes</h2>
+        <p>This policy may be updated from time to time. Changes will be reflected on this page with an updated date.</p>
+      </div>
+      <div class="privacy-section">
+        <h2>Contact</h2>
+        <p>Questions about this policy? Reach out via GitHub:<br>
+        <a href="https://github.com/Furkancinarka/TaskManager" target="_blank" rel="noopener">github.com/Furkancinarka/TaskManager</a></p>
+      </div>
+    </div>
   </div>
 
-  <footer class="footer">
-    <div class="footer-inner">
-      <p data-i18n-html="footer_text">&copy; 2026 RecurKit. Built for people who just need to get things done.</p>
-      <nav>
-        <a href="index.html" data-i18n="nav_home">Home</a>
-        <a href="about.html" data-i18n="nav_about">About</a>
-        <a href="privacy.html" data-i18n="nav_privacy_policy">Privacy Policy</a>
-      </nav>
+  <!-- TURKISH -->
+  <div class="lang-block" data-lang="tr" style="display:none">
+    <div class="privacy-header">
+      <h1>Gizlilik Politikasi</h1>
+      <div class="privacy-date">Son guncelleme: 13 Mart 2026</div>
     </div>
-  </footer>
+    <div class="privacy-content">
+      <div class="privacy-summary">
+        <p>RecurKit hicbir kisisel veri toplamaz, saklamaz veya iletmez. Her sey cihazinizda kalir.</p>
+      </div>
+      <div class="privacy-section">
+        <h2>Veri Toplama</h2>
+        <p><strong>Hicbir sey toplamiyoruz.</strong> RecurKit tamamen cevrimdisi bir uygulamadir. Sunucu, veritabani veya kullanici hesabi yoktur. Girdiginiz tum bilgiler cihazinizdaki yerel depolama alaninda kalir.</p>
+      </div>
+      <div class="privacy-section">
+        <h2>Yerel Depolama</h2>
+        <p>RecurKit gorevlerinizi kaydetmek icin <code>localStorage</code> kullanir. Bu veriler:</p>
+        <ul>
+          <li>Yalnizca cihazinizda saklanir</li>
+          <li>Hicbir sunucuya iletilmez</li>
+          <li>Tarayici/uygulama verilerini temizleyerek silinebilir</li>
+          <li>Diger uygulamalar veya web siteleri tarafindan erisilemez</li>
+        </ul>
+      </div>
+      <div class="privacy-section">
+        <h2>Izinler</h2>
+        <p>Uygulama asagidaki izinleri isteyebilir:</p>
+        <ul>
+          <li><strong>Bildirimler</strong> -- gorevleriniz hakkinda hatirlatma icin</li>
+          <li><strong>Titresim</strong> -- etkilesimler icin dokunsal geri bildirim</li>
+        </ul>
+        <p>Internet, kamera, konum, rehber veya depolama erisimi gerekmez.</p>
+      </div>
+      <div class="privacy-section">
+        <h2>Cerezler ve Analitik</h2>
+        <p>RecurKit cerez, analitik veya ucuncu taraf izleme kullanmaz. Kim oldugunuzu veya hangi gorevleri olusturduggunuzu bilmemizin hicbir yolu yoktur.</p>
+      </div>
+      <div class="privacy-section">
+        <h2>Ucuncu Taraf Hizmetleri</h2>
+        <p>RecurKit hicbir ucuncu taraf hizmetiyle entegre degildir. Yuklenen tek dis kaynak Google Fonts'tan Inter yazitipdir (yalnizca web surumu).</p>
+      </div>
+      <div class="privacy-section">
+        <h2>Cocuklarin Gizliligi</h2>
+        <p>Bu uygulama 13 yasindan kucuk cocuklara yonelik degildir. Cocuklar dahil hicbir kimseden bilerek bilgi toplamiyoruz.</p>
+      </div>
+      <div class="privacy-section">
+        <h2>Degisiklikler</h2>
+        <p>Bu politika zaman zaman guncellenebilir. Degisiklikler bu sayfada guncel bir tarihle yansitilacaktir.</p>
+      </div>
+      <div class="privacy-section">
+        <h2>Iletisim</h2>
+        <p>Bu politika hakkinda sorulariniz mi var? GitHub uzerinden ulasin:<br>
+        <a href="https://github.com/Furkancinarka/TaskManager" target="_blank" rel="noopener">github.com/Furkancinarka/TaskManager</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- GERMAN -->
+  <div class="lang-block" data-lang="de" style="display:none">
+    <div class="privacy-header">
+      <h1>Datenschutzrichtlinie</h1>
+      <div class="privacy-date">Letzte Aktualisierung: 13. Marz 2026</div>
+    </div>
+    <div class="privacy-content">
+      <div class="privacy-summary">
+        <p>RecurKit sammelt, speichert oder ubertragt keine personenbezogenen Daten. Alles bleibt auf Ihrem Gerat.</p>
+      </div>
+      <div class="privacy-section">
+        <h2>Datenerfassung</h2>
+        <p><strong>Wir erfassen nichts.</strong> RecurKit ist eine vollstandig offline Anwendung. Es gibt keine Server, Datenbanken oder Benutzerkonten. Alle eingegebenen Daten verbleiben im lokalen Speicher Ihres Gerats.</p>
+      </div>
+      <div class="privacy-section">
+        <h2>Lokaler Speicher</h2>
+        <p>RecurKit nutzt <code>localStorage</code> zum Speichern Ihrer Aufgaben. Diese Daten:</p>
+        <ul>
+          <li>Werden nur auf Ihrem Gerat gespeichert</li>
+          <li>Werden nie an einen Server ubertragen</li>
+          <li>Konnen durch Loschen der Browser-/App-Daten entfernt werden</li>
+          <li>Sind fur andere Apps oder Websites nicht zuganglich</li>
+        </ul>
+      </div>
+      <div class="privacy-section">
+        <h2>Berechtigungen</h2>
+        <p>Die App kann folgende Berechtigungen anfordern:</p>
+        <ul>
+          <li><strong>Benachrichtigungen</strong> -- um Sie an fallige Aufgaben zu erinnern</li>
+          <li><strong>Vibration</strong> -- fur haptisches Feedback</li>
+        </ul>
+        <p>Internet, Kamera, Standort, Kontakte oder Speicherzugriff sind nicht erforderlich.</p>
+      </div>
+      <div class="privacy-section">
+        <h2>Cookies &amp; Analyse</h2>
+        <p>RecurKit verwendet keine Cookies, Analysen oder Tracking-Dienste Dritter. Wir konnen nicht wissen, wer Sie sind oder welche Aufgaben Sie erstellen.</p>
+      </div>
+      <div class="privacy-section">
+        <h2>Drittanbieter-Dienste</h2>
+        <p>RecurKit integriert keine Drittanbieter-Dienste. Die einzige externe Ressource ist die Inter-Schriftart von Google Fonts (nur Web-Version).</p>
+      </div>
+      <div class="privacy-section">
+        <h2>Datenschutz fur Kinder</h2>
+        <p>Diese App richtet sich nicht an Kinder unter 13 Jahren. Wir erheben wissentlich keine Daten von Personen, einschliesslich Kindern.</p>
+      </div>
+      <div class="privacy-section">
+        <h2>Anderungen</h2>
+        <p>Diese Richtlinie kann von Zeit zu Zeit aktualisiert werden. Anderungen werden auf dieser Seite mit aktualisiertem Datum angezeigt.</p>
+      </div>
+      <div class="privacy-section">
+        <h2>Kontakt</h2>
+        <p>Fragen zu dieser Richtlinie? Kontaktieren Sie uns uber GitHub:<br>
+        <a href="https://github.com/Furkancinarka/TaskManager" target="_blank" rel="noopener">github.com/Furkancinarka/TaskManager</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FRENCH -->
+  <div class="lang-block" data-lang="fr" style="display:none">
+    <div class="privacy-header">
+      <h1>Politique de confidentialite</h1>
+      <div class="privacy-date">Derniere mise a jour : 13 mars 2026</div>
+    </div>
+    <div class="privacy-content">
+      <div class="privacy-summary">
+        <p>RecurKit ne collecte, ne stocke ni ne transmet aucune donnee personnelle. Tout reste sur votre appareil.</p>
+      </div>
+      <div class="privacy-section">
+        <h2>Collecte de donnees</h2>
+        <p><strong>Nous ne collectons rien.</strong> RecurKit est une application entierement hors ligne. Il n'y a ni serveurs, ni bases de donnees, ni comptes utilisateurs. Toutes les informations restent dans le stockage local de votre appareil.</p>
+      </div>
+      <div class="privacy-section">
+        <h2>Stockage local</h2>
+        <p>RecurKit utilise <code>localStorage</code> pour sauvegarder vos taches. Ces donnees :</p>
+        <ul>
+          <li>Sont stockees uniquement sur votre appareil</li>
+          <li>Ne sont jamais transmises a un serveur</li>
+          <li>Peuvent etre supprimees en effacant les donnees du navigateur/app</li>
+          <li>Ne sont pas accessibles aux autres apps ou sites web</li>
+        </ul>
+      </div>
+      <div class="privacy-section">
+        <h2>Autorisations</h2>
+        <p>L'application peut demander les autorisations suivantes :</p>
+        <ul>
+          <li><strong>Notifications</strong> -- pour vous rappeler les taches a faire</li>
+          <li><strong>Vibration</strong> -- pour le retour haptique</li>
+        </ul>
+        <p>Aucun acces a Internet, camera, localisation, contacts ou stockage n'est requis.</p>
+      </div>
+      <div class="privacy-section">
+        <h2>Cookies et analyses</h2>
+        <p>RecurKit n'utilise ni cookies, ni analyses, ni services de suivi tiers. Nous n'avons aucun moyen de savoir qui vous etes ou quelles taches vous creez.</p>
+      </div>
+      <div class="privacy-section">
+        <h2>Services tiers</h2>
+        <p>RecurKit n'integre aucun service tiers. La seule ressource externe chargee est la police Inter de Google Fonts (version web uniquement).</p>
+      </div>
+      <div class="privacy-section">
+        <h2>Confidentialite des enfants</h2>
+        <p>Cette application ne s'adresse pas aux enfants de moins de 13 ans. Nous ne collectons sciemment aucune information de quiconque, y compris les enfants.</p>
+      </div>
+      <div class="privacy-section">
+        <h2>Modifications</h2>
+        <p>Cette politique peut etre mise a jour. Les modifications seront refletees sur cette page avec une date actualisee.</p>
+      </div>
+      <div class="privacy-section">
+        <h2>Contact</h2>
+        <p>Des questions sur cette politique ? Contactez-nous via GitHub :<br>
+        <a href="https://github.com/Furkancinarka/TaskManager" target="_blank" rel="noopener">github.com/Furkancinarka/TaskManager</a></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="privacy-footer">
+    &copy; 2026 RecurKit
+  </div>
 
   <script src="i18n.js"></script>
   <script>

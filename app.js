@@ -312,7 +312,7 @@
 
   function setTodayDefault() {
     var today = new Date();
-    onceDateInput.value = formatDateInput(today);
+    onceDateInput.value = formatDate(today);
     dayOfMonthSelect.value = today.getDate();
     dayOfWeekSelect.value = today.getDay();
     monthSelect.value = today.getMonth();
@@ -473,6 +473,10 @@
 
     if (!task.completedDates.includes(todayStr)) {
       task.completedDates.push(todayStr);
+    }
+    // Cap completedDates to last 60 entries to prevent localStorage bloat
+    if (task.completedDates.length > 60) {
+      task.completedDates = task.completedDates.slice(-60);
     }
     task.nextDue = calcNextDue(task, new Date());
     saveTasks();
@@ -708,10 +712,6 @@
     var m = String(dd.getMonth() + 1).padStart(2, '0');
     var day = String(dd.getDate()).padStart(2, '0');
     return y + '-' + m + '-' + day;
-  }
-
-  function formatDateInput(d) {
-    return formatDate(d);
   }
 
   function prettyDate(str) {
@@ -1001,9 +1001,9 @@
       { name: t('sample_backup'), frequency: 'daily', fullDay: false, taskTime: '22:00' }
     ];
 
-    samples.forEach(function (s) {
+    samples.forEach(function (s, idx) {
       var task = {
-        id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+        id: (Date.now() + idx).toString(36) + Math.random().toString(36).slice(2, 7),
         name: s.name,
         frequency: s.frequency,
         fullDay: s.fullDay,
@@ -1163,8 +1163,7 @@
           sound: 'default',
           smallIcon: 'ic_stat_notify',
           largeIcon: 'ic_launcher',
-          channelId: 'recurkit_reminders',
-          ongoing: true
+          channelId: 'recurkit_reminders'
         }]
       }).catch(function (err) {
         console.log('Notification schedule error:', err);

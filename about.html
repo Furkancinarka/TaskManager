@@ -4,10 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
   <meta name="color-scheme" content="light dark">
-  <meta name="description" content="About RecurKit — the dead simple recurring task manager built for solo operators, freelancers, and small business owners.">
+  <meta name="description" content="About RecurKit — the dead simple recurring task manager.">
   <title>About — RecurKit</title>
 
-  <!-- PWA -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#4f46e5">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -19,189 +18,291 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <style>
+    /* About page specific styles */
+    .about-hero {
+      text-align: center;
+      padding: 40px 24px 24px;
+    }
+    .about-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #4f46e5, #6366f1);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.4rem;
+      margin: 0 auto 14px;
+      box-shadow: 0 8px 24px rgba(79,70,229,.25);
+    }
+    .about-hero h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .about-version {
+      font-size: .82rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    .about-tagline {
+      font-size: .95rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      max-width: 360px;
+      margin: 0 auto;
+    }
+    .about-content {
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 0 16px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .about-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .about-section-title {
+      font-size: .75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      color: var(--text-muted);
+      padding: 14px 18px 8px;
+    }
+    .about-row {
+      display: flex;
+      align-items: center;
+      padding: 13px 18px;
+      gap: 14px;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+      color: var(--text);
+      transition: background .15s;
+    }
+    .about-row:last-child { border-bottom: none; }
+    .about-row:hover { background: rgba(79,70,229,.04); text-decoration: none; }
+    .about-row-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .about-row-icon.blue { background: #dbeafe; color: #2563eb; }
+    .about-row-icon.green { background: #d1fae5; color: #059669; }
+    .about-row-icon.purple { background: #ede9fe; color: #7c3aed; }
+    .about-row-icon.yellow { background: #fef3c7; color: #d97706; }
+    .about-row-icon.red { background: #fee2e2; color: #dc2626; }
+    .about-row-icon.gray { background: #f3f4f6; color: #6b7280; }
+    .about-row-text { flex: 1; min-width: 0; }
+    .about-row-label {
+      font-size: .9rem;
+      font-weight: 500;
+      line-height: 1.3;
+    }
+    .about-row-sub {
+      font-size: .78rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+      margin-top: 1px;
+    }
+    .about-row-chevron {
+      color: var(--text-muted);
+      font-size: .8rem;
+      opacity: .5;
+    }
+    .about-footer {
+      text-align: center;
+      padding: 8px 16px 32px;
+      font-size: .78rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .about-icon { box-shadow: 0 8px 24px rgba(129,140,248,.2); }
+      .about-row:hover { background: rgba(129,140,248,.06); }
+      .about-row-icon.blue { background: #1e3a5f; color: #93c5fd; }
+      .about-row-icon.green { background: #064e3b; color: #6ee7b7; }
+      .about-row-icon.purple { background: #2e1065; color: #c4b5fd; }
+      .about-row-icon.yellow { background: #451a03; color: #fcd34d; }
+      .about-row-icon.red { background: #450a0a; color: #fca5a5; }
+      .about-row-icon.gray { background: #1f2937; color: #9ca3af; }
+    }
+
+    @media (max-width: 600px) {
+      .about-hero { padding: 28px 16px 20px; }
+      .about-icon { width: 72px; height: 72px; font-size: 2rem; border-radius: 18px; }
+      .about-hero h1 { font-size: 1.35rem; }
+      .about-content { padding: 0 12px 100px; }
+      .about-footer { padding-bottom: 100px; }
+    }
+  </style>
 </head>
 <body>
 
   <header class="topbar">
     <div class="topbar-inner">
-      <a href="index.html" class="logo">⟳ <span>RecurKit</span></a>
-      <nav class="topnav">
-        <a href="about.html" data-i18n="nav_about">About</a>
-        <a href="privacy.html" data-i18n="nav_privacy">Privacy</a>
-        <select id="langSelect" class="lang-select" aria-label="Language">
-          <option value="en">🇬🇧 EN</option>
-          <option value="tr">🇹🇷 TR</option>
-          <option value="de">🇩🇪 DE</option>
-          <option value="fr">🇫🇷 FR</option>
-        </select>
-      </nav>
+      <a href="index.html" class="logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="20" height="20" style="opacity:.7"><polyline points="15 18 9 12 15 6"/></svg>
+        <span data-i18n="nav_about">About</span>
+      </a>
     </div>
   </header>
 
-  <div class="page-content">
-    <!-- ENGLISH -->
-    <article class="card prose lang-block" data-lang="en">
-      <h1>About RecurKit</h1>
-      <p><strong>RecurKit</strong> is a dead simple recurring task manager built for one type of person: <em>the solo operator</em>.</p>
-      <p>If you're a freelancer, a one-person business, a landlord, a side-hustler, or anyone who has stuff that needs to get done on a regular schedule — this is for you.</p>
-      <h2>Why we built this</h2>
-      <p>Every task manager out there wants you to manage projects, invite teammates, set up boards, create labels, and configure workflows. That's great if you're a team of 50. But if you're just one person who needs to remember to:</p>
-      <ul>
-        <li>Send invoices on the 1st of every month</li>
-        <li>Check inventory every Thursday</li>
-        <li>Renew your domain name on March 15th</li>
-        <li>Pay quarterly taxes</li>
-        <li>Back up your files every Sunday</li>
-      </ul>
-      <p>…then you don't need Notion. You don't need Asana. You don't need Monday. You need <strong>RecurKit</strong>.</p>
-      <h2>How it works</h2>
-      <ol>
-        <li><strong>Add a task</strong> — give it a name and tell it how often it repeats (daily, weekly, monthly, yearly, or just once).</li>
-        <li><strong>Check it off</strong> — when you've done it, click the circle. RecurKit automatically calculates when it's next due.</li>
-        <li><strong>Stay on top of it</strong> — open RecurKit each day to see what's due. Overdue tasks are highlighted so nothing slips through.</li>
-      </ol>
-      <h2>Your data stays with you</h2>
-      <p>RecurKit stores everything in your browser's local storage. No accounts. No cloud sync. No sign-ups. Your tasks live on your device. Period.</p>
-      <h2>Features</h2>
-      <ul>
-        <li>✅ Daily, weekly, monthly, yearly, and one-time tasks</li>
-        <li>✅ Auto-calculates next due date when you complete a task</li>
-        <li>✅ Overdue task highlighting</li>
-        <li>✅ Filter by today, upcoming, overdue, or all</li>
-        <li>✅ Quick stats dashboard</li>
-        <li>✅ Works on phone, tablet, and desktop</li>
-        <li>✅ No sign-up required</li>
-        <li>✅ 100% free</li>
-      </ul>
-      <p>Built with ❤ for people who just need to get things done.</p>
-    </article>
-
-    <!-- TURKISH -->
-    <article class="card prose lang-block" data-lang="tr" style="display:none">
-      <h1>RecurKit Hakkında</h1>
-      <p><strong>RecurKit</strong>, tek bir kişi tipi için yapılmış çok basit bir tekrarlayan görev yöneticisidir: <em>tek başına çalışanlar</em>.</p>
-      <p>Serbest çalışan, tek kişilik işletme sahibi, mülk yöneticisi veya düzenli bir programa göre yapılması gereken işleri olan biriyseniz — bu uygulama tam size göre.</p>
-      <h2>Neden yaptık</h2>
-      <p>Dışarıdaki her görev yöneticisi sizden proje yönetmenizi, takım arkadaşlarınızı davet etmenizi, panolar oluşturmanızı istiyor. 50 kişilik bir ekipseniz harika. Ama sadece şunları hatırlaması gereken tek bir kişiyseniz:</p>
-      <ul>
-        <li>Her ayın 1'inde fatura göndermek</li>
-        <li>Her perşembe envanteri kontrol etmek</li>
-        <li>15 Mart'ta alan adınızı yenilemek</li>
-        <li>Üç ayda bir vergi ödemek</li>
-        <li>Her pazar dosyalarınızı yedeklemek</li>
-      </ul>
-      <p>…o zaman Notion'a ihtiyacınız yok. Asana'ya da yok. Monday'e de yok. <strong>RecurKit</strong>'e ihtiyacınız var.</p>
-      <h2>Nasıl çalışır</h2>
-      <ol>
-        <li><strong>Görev ekleyin</strong> — bir isim verin ve ne sıklıkla tekrarlandığını belirleyin (günlük, haftalık, aylık, yıllık veya tek seferlik).</li>
-        <li><strong>İşaretleyin</strong> — tamamladığınızda daireye tıklayın. RecurKit bir sonraki tarihi otomatik hesaplar.</li>
-        <li><strong>Takip edin</strong> — her gün RecurKit'i açın ve neyin yapılması gerektiğini görün. Gecikmiş görevler vurgulanır.</li>
-      </ol>
-      <h2>Verileriniz sizde kalır</h2>
-      <p>RecurKit her şeyi tarayıcınızın yerel depolama alanında saklar. Hesap yok. Bulut senkronizasyonu yok. Kayıt yok. Görevleriniz cihazınızda kalır. Nokta.</p>
-      <h2>Özellikler</h2>
-      <ul>
-        <li>✅ Günlük, haftalık, aylık, yıllık ve tek seferlik görevler</li>
-        <li>✅ Görev tamamlandığında sonraki tarihi otomatik hesaplar</li>
-        <li>✅ Gecikmiş görev vurgulama</li>
-        <li>✅ Bugün, yaklaşan, gecikmiş veya tümü olarak filtreleme</li>
-        <li>✅ Hızlı istatistik panosu</li>
-        <li>✅ Telefon, tablet ve masaüstünde çalışır</li>
-        <li>✅ Kayıt gerekmez</li>
-        <li>✅ %100 ücretsiz</li>
-      </ul>
-      <p>İşlerini halletmesi gereken insanlar için ❤ ile yapıldı.</p>
-    </article>
-
-    <!-- GERMAN -->
-    <article class="card prose lang-block" data-lang="de" style="display:none">
-      <h1>Über RecurKit</h1>
-      <p><strong>RecurKit</strong> ist ein ganz einfacher Manager für wiederkehrende Aufgaben, gebaut für einen Typ Mensch: <em>den Einzelkämpfer</em>.</p>
-      <p>Ob Freelancer, Einzelunternehmer, Vermieter oder Nebenjobber — wenn Sie regelmäßig Dinge erledigen müssen, ist das Ihr Werkzeug.</p>
-      <h2>Warum wir das gebaut haben</h2>
-      <p>Jeder Aufgabenmanager will, dass Sie Projekte verwalten, Teammitglieder einladen und Workflows konfigurieren. Toll für ein 50-köpfiges Team. Aber wenn Sie nur eine Person sind, die sich merken muss:</p>
-      <ul>
-        <li>Am 1. jedes Monats Rechnungen senden</li>
-        <li>Jeden Donnerstag den Bestand prüfen</li>
-        <li>Am 15. März die Domain verlängern</li>
-        <li>Vierteljährlich Steuern zahlen</li>
-        <li>Jeden Sonntag Dateien sichern</li>
-      </ul>
-      <p>…dann brauchen Sie kein Notion. Kein Asana. Kein Monday. Sie brauchen <strong>RecurKit</strong>.</p>
-      <h2>So funktioniert's</h2>
-      <ol>
-        <li><strong>Aufgabe hinzufügen</strong> — geben Sie einen Namen ein und legen Sie die Wiederholung fest (täglich, wöchentlich, monatlich, jährlich oder einmalig).</li>
-        <li><strong>Abhaken</strong> — wenn erledigt, klicken Sie den Kreis. RecurKit berechnet automatisch den nächsten Termin.</li>
-        <li><strong>Dranbleiben</strong> — öffnen Sie RecurKit täglich und sehen Sie, was ansteht. Überfällige Aufgaben werden hervorgehoben.</li>
-      </ol>
-      <h2>Ihre Daten bleiben bei Ihnen</h2>
-      <p>RecurKit speichert alles im lokalen Speicher Ihres Browsers. Keine Konten. Keine Cloud-Synchronisierung. Keine Anmeldung. Ihre Aufgaben leben auf Ihrem Gerät. Punkt.</p>
-      <h2>Funktionen</h2>
-      <ul>
-        <li>✅ Tägliche, wöchentliche, monatliche, jährliche und einmalige Aufgaben</li>
-        <li>✅ Berechnet automatisch das nächste Fälligkeitsdatum</li>
-        <li>✅ Hervorhebung überfälliger Aufgaben</li>
-        <li>✅ Filtern nach heute, bevorstehend, überfällig oder alle</li>
-        <li>✅ Schnellstatistik-Dashboard</li>
-        <li>✅ Funktioniert auf Handy, Tablet und Desktop</li>
-        <li>✅ Keine Anmeldung erforderlich</li>
-        <li>✅ 100% kostenlos</li>
-      </ul>
-      <p>Mit ❤ gebaut für Menschen, die einfach Dinge erledigen müssen.</p>
-    </article>
-
-    <!-- FRENCH -->
-    <article class="card prose lang-block" data-lang="fr" style="display:none">
-      <h1>À propos de RecurKit</h1>
-      <p><strong>RecurKit</strong> est un gestionnaire de tâches récurrentes ultra simple, conçu pour un seul type de personne : <em>l'opérateur solo</em>.</p>
-      <p>Que vous soyez freelance, auto-entrepreneur, propriétaire ou que vous ayez simplement des choses à faire régulièrement — c'est pour vous.</p>
-      <h2>Pourquoi nous l'avons créé</h2>
-      <p>Tous les gestionnaires de tâches veulent que vous gériez des projets, invitiez des coéquipiers et configuriez des workflows. C'est super pour une équipe de 50. Mais si vous êtes juste une personne qui doit se souvenir de :</p>
-      <ul>
-        <li>Envoyer les factures le 1er de chaque mois</li>
-        <li>Vérifier l'inventaire chaque jeudi</li>
-        <li>Renouveler le nom de domaine le 15 mars</li>
-        <li>Payer les impôts trimestriels</li>
-        <li>Sauvegarder les fichiers chaque dimanche</li>
-      </ul>
-      <p>…alors vous n'avez pas besoin de Notion. Ni d'Asana. Ni de Monday. Vous avez besoin de <strong>RecurKit</strong>.</p>
-      <h2>Comment ça marche</h2>
-      <ol>
-        <li><strong>Ajoutez une tâche</strong> — donnez-lui un nom et définissez sa fréquence (quotidienne, hebdomadaire, mensuelle, annuelle ou unique).</li>
-        <li><strong>Cochez-la</strong> — quand c'est fait, cliquez le cercle. RecurKit calcule automatiquement la prochaine échéance.</li>
-        <li><strong>Restez à jour</strong> — ouvrez RecurKit chaque jour pour voir ce qui est à faire. Les tâches en retard sont mises en évidence.</li>
-      </ol>
-      <h2>Vos données restent chez vous</h2>
-      <p>RecurKit stocke tout dans le stockage local de votre navigateur. Pas de compte. Pas de synchronisation cloud. Pas d'inscription. Vos tâches restent sur votre appareil. Point.</p>
-      <h2>Fonctionnalités</h2>
-      <ul>
-        <li>✅ Tâches quotidiennes, hebdomadaires, mensuelles, annuelles et uniques</li>
-        <li>✅ Calcul automatique de la prochaine échéance</li>
-        <li>✅ Mise en évidence des tâches en retard</li>
-        <li>✅ Filtrer par aujourd'hui, à venir, en retard ou tout</li>
-        <li>✅ Tableau de bord statistiques rapides</li>
-        <li>✅ Fonctionne sur téléphone, tablette et ordinateur</li>
-        <li>✅ Aucune inscription requise</li>
-        <li>✅ 100% gratuit</li>
-      </ul>
-      <p>Conçu avec ❤ pour ceux qui veulent simplement faire avancer les choses.</p>
-    </article>
+  <!-- App Hero -->
+  <div class="about-hero">
+    <div class="about-icon">&#8635;</div>
+    <h1>RecurKit</h1>
+    <div class="about-version">v1.4.0</div>
+    <p class="about-tagline lang-block" data-lang="en">The dead simple recurring task manager for solo operators.</p>
+    <p class="about-tagline lang-block" data-lang="tr" style="display:none">Tek basina calisanlar icin cok basit tekrarlayan gorev yoneticisi.</p>
+    <p class="about-tagline lang-block" data-lang="de" style="display:none">Der einfachste Aufgabenmanager fur wiederkehrende Aufgaben.</p>
+    <p class="about-tagline lang-block" data-lang="fr" style="display:none">Le gestionnaire de taches recurrentes ultra simple.</p>
   </div>
 
-  <footer class="footer">
-    <div class="footer-inner">
-      <p data-i18n-html="footer_text">&copy; 2026 RecurKit. Built for people who just need to get things done.</p>
-      <nav>
-        <a href="index.html" data-i18n="nav_home">Home</a>
-        <a href="about.html" data-i18n="nav_about">About</a>
-        <a href="privacy.html" data-i18n="nav_privacy_policy">Privacy Policy</a>
-      </nav>
+  <div class="about-content">
+
+    <!-- Features -->
+    <div class="about-section">
+      <div class="about-section-title lang-block" data-lang="en">Features</div>
+      <div class="about-section-title lang-block" data-lang="tr" style="display:none">Ozellikler</div>
+      <div class="about-section-title lang-block" data-lang="de" style="display:none">Funktionen</div>
+      <div class="about-section-title lang-block" data-lang="fr" style="display:none">Fonctionnalites</div>
+
+      <div class="about-row">
+        <div class="about-row-icon blue">&#8635;</div>
+        <div class="about-row-text">
+          <div class="about-row-label lang-block" data-lang="en">Recurring Tasks</div>
+          <div class="about-row-label lang-block" data-lang="tr" style="display:none">Tekrarlayan Gorevler</div>
+          <div class="about-row-label lang-block" data-lang="de" style="display:none">Wiederkehrende Aufgaben</div>
+          <div class="about-row-label lang-block" data-lang="fr" style="display:none">Taches recurrentes</div>
+          <div class="about-row-sub lang-block" data-lang="en">Daily, weekly, monthly, yearly, one-time, or custom intervals</div>
+          <div class="about-row-sub lang-block" data-lang="tr" style="display:none">Gunluk, haftalik, aylik, yillik, tek seferlik veya ozel araliklar</div>
+          <div class="about-row-sub lang-block" data-lang="de" style="display:none">Taglich, wochentlich, monatlich, jahrlich, einmalig oder benutzerdefiniert</div>
+          <div class="about-row-sub lang-block" data-lang="fr" style="display:none">Quotidien, hebdomadaire, mensuel, annuel, unique ou personnalise</div>
+        </div>
+      </div>
+      <div class="about-row">
+        <div class="about-row-icon green">&#10003;</div>
+        <div class="about-row-text">
+          <div class="about-row-label lang-block" data-lang="en">Smart Scheduling</div>
+          <div class="about-row-label lang-block" data-lang="tr" style="display:none">Akilli Zamanlama</div>
+          <div class="about-row-label lang-block" data-lang="de" style="display:none">Intelligente Planung</div>
+          <div class="about-row-label lang-block" data-lang="fr" style="display:none">Planification intelligente</div>
+          <div class="about-row-sub lang-block" data-lang="en">Complete a task and the next due date is calculated automatically</div>
+          <div class="about-row-sub lang-block" data-lang="tr" style="display:none">Gorevi tamamlayin, sonraki tarih otomatik hesaplansin</div>
+          <div class="about-row-sub lang-block" data-lang="de" style="display:none">Aufgabe erledigen, nachster Termin wird automatisch berechnet</div>
+          <div class="about-row-sub lang-block" data-lang="fr" style="display:none">Terminez une tache, la prochaine echeance est calculee automatiquement</div>
+        </div>
+      </div>
+      <div class="about-row">
+        <div class="about-row-icon purple">&#128276;</div>
+        <div class="about-row-text">
+          <div class="about-row-label lang-block" data-lang="en">Notifications</div>
+          <div class="about-row-label lang-block" data-lang="tr" style="display:none">Bildirimler</div>
+          <div class="about-row-label lang-block" data-lang="de" style="display:none">Benachrichtigungen</div>
+          <div class="about-row-label lang-block" data-lang="fr" style="display:none">Notifications</div>
+          <div class="about-row-sub lang-block" data-lang="en">Get reminded 30 minutes before a task is due</div>
+          <div class="about-row-sub lang-block" data-lang="tr" style="display:none">Gorev zamanindan 30 dakika once hatirlatma alin</div>
+          <div class="about-row-sub lang-block" data-lang="de" style="display:none">Erinnerung 30 Minuten vor Falligkeit</div>
+          <div class="about-row-sub lang-block" data-lang="fr" style="display:none">Rappel 30 minutes avant l'echeance</div>
+        </div>
+      </div>
+      <div class="about-row">
+        <div class="about-row-icon yellow">&#127760;</div>
+        <div class="about-row-text">
+          <div class="about-row-label lang-block" data-lang="en">Multi-language</div>
+          <div class="about-row-label lang-block" data-lang="tr" style="display:none">Coklu dil</div>
+          <div class="about-row-label lang-block" data-lang="de" style="display:none">Mehrsprachig</div>
+          <div class="about-row-label lang-block" data-lang="fr" style="display:none">Multilingue</div>
+          <div class="about-row-sub lang-block" data-lang="en">English, Turkish, German, French</div>
+          <div class="about-row-sub lang-block" data-lang="tr" style="display:none">Ingilizce, Turkce, Almanca, Fransizca</div>
+          <div class="about-row-sub lang-block" data-lang="de" style="display:none">Englisch, Turkisch, Deutsch, Franzosisch</div>
+          <div class="about-row-sub lang-block" data-lang="fr" style="display:none">Anglais, turc, allemand, francais</div>
+        </div>
+      </div>
+      <div class="about-row">
+        <div class="about-row-icon gray">&#128274;</div>
+        <div class="about-row-text">
+          <div class="about-row-label lang-block" data-lang="en">100% Offline &amp; Private</div>
+          <div class="about-row-label lang-block" data-lang="tr" style="display:none">%100 Cevrimdisi ve Gizli</div>
+          <div class="about-row-label lang-block" data-lang="de" style="display:none">100% Offline &amp; Privat</div>
+          <div class="about-row-label lang-block" data-lang="fr" style="display:none">100% hors ligne et prive</div>
+          <div class="about-row-sub lang-block" data-lang="en">No accounts, no cloud, no tracking. Data stays on your device.</div>
+          <div class="about-row-sub lang-block" data-lang="tr" style="display:none">Hesap yok, bulut yok, izleme yok. Veriler cihazinizda kalir.</div>
+          <div class="about-row-sub lang-block" data-lang="de" style="display:none">Keine Konten, keine Cloud, kein Tracking. Daten bleiben auf Ihrem Gerat.</div>
+          <div class="about-row-sub lang-block" data-lang="fr" style="display:none">Pas de compte, pas de cloud, pas de suivi. Donnees sur votre appareil.</div>
+        </div>
+      </div>
     </div>
-  </footer>
+
+    <!-- Links -->
+    <div class="about-section">
+      <div class="about-section-title lang-block" data-lang="en">More</div>
+      <div class="about-section-title lang-block" data-lang="tr" style="display:none">Daha fazla</div>
+      <div class="about-section-title lang-block" data-lang="de" style="display:none">Mehr</div>
+      <div class="about-section-title lang-block" data-lang="fr" style="display:none">Plus</div>
+
+      <a href="privacy.html" class="about-row">
+        <div class="about-row-icon gray">&#128196;</div>
+        <div class="about-row-text">
+          <div class="about-row-label" data-i18n="nav_privacy_policy">Privacy Policy</div>
+        </div>
+        <div class="about-row-chevron">&#8250;</div>
+      </a>
+      <a href="https://github.com/Furkancinarka/TaskManager" class="about-row" target="_blank" rel="noopener">
+        <div class="about-row-icon gray">&#128187;</div>
+        <div class="about-row-text">
+          <div class="about-row-label lang-block" data-lang="en">Source Code</div>
+          <div class="about-row-label lang-block" data-lang="tr" style="display:none">Kaynak Kodu</div>
+          <div class="about-row-label lang-block" data-lang="de" style="display:none">Quellcode</div>
+          <div class="about-row-label lang-block" data-lang="fr" style="display:none">Code source</div>
+          <div class="about-row-sub">github.com/Furkancinarka/TaskManager</div>
+        </div>
+        <div class="about-row-chevron">&#8250;</div>
+      </a>
+    </div>
+
+    <!-- Developer -->
+    <div class="about-section">
+      <div class="about-section-title lang-block" data-lang="en">Developer</div>
+      <div class="about-section-title lang-block" data-lang="tr" style="display:none">Gelistirici</div>
+      <div class="about-section-title lang-block" data-lang="de" style="display:none">Entwickler</div>
+      <div class="about-section-title lang-block" data-lang="fr" style="display:none">Developpeur</div>
+
+      <div class="about-row">
+        <div class="about-row-icon blue">&#128104;&#8205;&#128187;</div>
+        <div class="about-row-text">
+          <div class="about-row-label">Ahmet Furkan Cinarka</div>
+          <div class="about-row-sub">github.com/Furkancinarka</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="about-footer">
+    &copy; 2026 RecurKit<br>
+    <span class="lang-block" data-lang="en">Built for people who just need to get things done.</span>
+    <span class="lang-block" data-lang="tr" style="display:none">Islerini halletmesi gereken insanlar icin yapildi.</span>
+    <span class="lang-block" data-lang="de" style="display:none">Fur Menschen, die einfach Dinge erledigen mussen.</span>
+    <span class="lang-block" data-lang="fr" style="display:none">Concu pour ceux qui veulent simplement avancer.</span>
+  </div>
 
   <script src="i18n.js"></script>
   <script>
-    // Show/hide language blocks on this page
     document.addEventListener('DOMContentLoaded', function() {
       function showLangBlock() {
         var lang = getLang();
@@ -210,7 +311,6 @@
         });
       }
       showLangBlock();
-      // Re-run when language changes
       var origSetLang = window.setLang;
       window.setLang = function(lang) {
         origSetLang(lang);
