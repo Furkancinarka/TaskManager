@@ -12,6 +12,13 @@ const FILES = [
   'privacy.html',
   'styles.css',
   'i18n.js',
+  'helpers.js',
+  'storage.js',
+  'tasks.js',
+  'notifications.js',
+  'ui.js',
+  'onboarding.js',
+  'pwa.js',
   'app.js',
   'sw.js',
   'manifest.json'
