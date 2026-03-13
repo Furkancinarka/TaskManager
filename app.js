@@ -80,6 +80,10 @@
 
   // ---- Constants ----
   var STORAGE_KEY = 'recurkit_tasks';
+  var ONBOARD_KEY = 'recurkit_onboarded';
+  var BACKUP_KEY = 'recurkit_last_backup';
+  var BATTERY_KEY = 'recurkit_battery_dismissed';
+  var BACKUP_INTERVAL = 7 * 24 * 60 * 60 * 1000; // 7 days
 
   // ---- State ----
   var tasks = loadTasks();
@@ -110,6 +114,24 @@
   var bottomSheet = document.getElementById('bottomSheet');
   var sheetOverlay = document.getElementById('sheetOverlay');
 
+  // Menu refs
+  var menuBtn = document.getElementById('menuBtn');
+  var menuDropdown = document.getElementById('menuDropdown');
+  var btnExport = document.getElementById('btnExport');
+  var btnImport = document.getElementById('btnImport');
+  var sidebarExport = document.getElementById('sidebarExport');
+  var sidebarImport = document.getElementById('sidebarImport');
+  var importFileInput = document.getElementById('importFileInput');
+
+  // Onboarding refs
+  var onboardingEl = document.getElementById('onboarding');
+  var onboardSamples = document.getElementById('onboardSamples');
+  var onboardSkip = document.getElementById('onboardSkip');
+
+  // Battery banner refs
+  var batteryBanner = document.getElementById('batteryBanner');
+  var batteryDismiss = document.getElementById('batteryDismiss');
+
   // Stats — desktop
   var statToday = document.getElementById('statToday');
   var statOverdue = document.getElementById('statOverdue');
@@ -131,6 +153,12 @@
 
   // Expose render so i18n can call it on language change
   window.recurkitRender = render;
+
+  // Check onboarding
+  checkOnboarding();
+
+  // Check backup reminder (after 2 sec so app loads first)
+  setTimeout(checkBackupReminder, 2000);
 
   // ---- Events ----
   freqSelect.addEventListener('change', updateFormFields);
@@ -745,6 +773,248 @@
     }, 2500);
   }
 
+  // ===== THREE-DOT MENU =====
+  if (menuBtn) {
+    menuBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      menuDropdown.classList.toggle('open');
+    });
+  }
+  // Close menu when clicking elsewhere
+  document.addEventListener('click', function () {
+    if (menuDropdown) menuDropdown.classList.remove('open');
+  });
+
+  // ===== EXPORT DATA =====
+  function exportData() {
+    var data = {
+      version: 1,
+      exported: new Date().toISOString(),
+      tasks: tasks
+    };
+    var json = JSON.stringify(data, null, 2);
+    var blob = new Blob([json], { type: 'application/json' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'recurkit-backup-' + formatDate(new Date()) + '.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    // Mark backup timestamp
+    localStorage.setItem(BACKUP_KEY, Date.now().toString());
+    showToast(t('toast_exported'));
+    hapticSuccess();
+
+    // Close menu
+    if (menuDropdown) menuDropdown.classList.remove('open');
+  }
+
+  // Wire up all export buttons
+  if (btnExport) btnExport.addEventListener('click', exportData);
+  if (sidebarExport) sidebarExport.addEventListener('click', exportData);
+
+  // ===== IMPORT DATA =====
+  function importData() {
+    if (importFileInput) importFileInput.click();
+    if (menuDropdown) menuDropdown.classList.remove('open');
+  }
+
+  if (btnImport) btnImport.addEventListener('click', importData);
+  if (sidebarImport) sidebarImport.addEventListener('click', importData);
+
+  if (importFileInput) {
+    importFileInput.addEventListener('change', function (e) {
+      var file = e.target.files[0];
+      if (!file) return;
+
+      var reader = new FileReader();
+      reader.onload = function (ev) {
+        try {
+          var data = JSON.parse(ev.target.result);
+          var importedTasks = data.tasks || data;
+
+          // Validate: must be array
+          if (!Array.isArray(importedTasks)) {
+            showToast(t('toast_import_fail'));
+            return;
+          }
+
+          // Validate each task has required fields
+          var valid = importedTasks.every(function (t) {
+            return t.id && t.name && t.frequency && t.nextDue;
+          });
+          if (!valid) {
+            showToast(t('toast_import_fail'));
+            return;
+          }
+
+          // Ask user: merge or replace?
+          var count = importedTasks.length;
+          var action = tasks.length > 0
+            ? confirm(t('import_confirm_merge').replace('{count}', count))
+            : true; // No existing tasks, just import
+
+          if (action === false) {
+            // User clicked Cancel on merge prompt — still import but replace
+            // Actually let's use a simpler flow: always merge (add missing)
+            return;
+          }
+
+          // Merge: add tasks whose IDs don't already exist
+          var existingIds = {};
+          tasks.forEach(function (t) { existingIds[t.id] = true; });
+
+          var added = 0;
+          importedTasks.forEach(function (t) {
+            if (!existingIds[t.id]) {
+              // Ensure completedDates array exists
+              if (!Array.isArray(t.completedDates)) t.completedDates = [];
+              // Ensure fullDay default
+              if (t.fullDay === undefined) t.fullDay = true;
+              tasks.push(t);
+              added++;
+            }
+          });
+
+          saveTasks();
+          render();
+          showToast(t('toast_imported').replace('{count}', added));
+          hapticSuccess();
+
+          // Reschedule all notifications
+          if (isNative && LocalNotif) {
+            setTimeout(scheduleAllNotifications, 500);
+          }
+        } catch (err) {
+          showToast(t('toast_import_fail'));
+        }
+      };
+      reader.readAsText(file);
+
+      // Reset file input so same file can be imported again
+      importFileInput.value = '';
+    });
+  }
+
+  // ===== ONBOARDING =====
+  function checkOnboarding() {
+    if (localStorage.getItem(ONBOARD_KEY)) return;
+    if (tasks.length > 0) {
+      // User already has tasks (maybe from before), skip onboarding
+      localStorage.setItem(ONBOARD_KEY, '1');
+      return;
+    }
+    // Show onboarding
+    if (onboardingEl) onboardingEl.style.display = '';
+  }
+
+  function dismissOnboarding() {
+    localStorage.setItem(ONBOARD_KEY, '1');
+    if (onboardingEl) onboardingEl.style.display = 'none';
+  }
+
+  if (onboardSkip) {
+    onboardSkip.addEventListener('click', dismissOnboarding);
+  }
+
+  if (onboardSamples) {
+    onboardSamples.addEventListener('click', function () {
+      addSampleTasks();
+      dismissOnboarding();
+    });
+  }
+
+  function addSampleTasks() {
+    var samples = [
+      { name: t('sample_invoice'), frequency: 'monthly', dayOfMonth: 1, fullDay: true, taskTime: null },
+      { name: t('sample_inventory'), frequency: 'weekly', dayOfWeek: 4, fullDay: true, taskTime: null },
+      { name: t('sample_domain'), frequency: 'yearly', month: 2, dayOfMonth: 15, fullDay: true, taskTime: null },
+      { name: t('sample_report'), frequency: 'weekly', dayOfWeek: 5, fullDay: false, taskTime: '17:00' },
+      { name: t('sample_backup'), frequency: 'daily', fullDay: false, taskTime: '22:00' }
+    ];
+
+    samples.forEach(function (s) {
+      var task = {
+        id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+        name: s.name,
+        frequency: s.frequency,
+        fullDay: s.fullDay,
+        taskTime: s.taskTime,
+        createdAt: new Date().toISOString(),
+        completedDates: []
+      };
+      if (s.dayOfWeek !== undefined) task.dayOfWeek = s.dayOfWeek;
+      if (s.dayOfMonth !== undefined) task.dayOfMonth = s.dayOfMonth;
+      if (s.month !== undefined) task.month = s.month;
+      task.nextDue = calcNextDue(task);
+      tasks.push(task);
+    });
+
+    saveTasks();
+    render();
+    showToast(t('toast_samples'));
+    hapticSuccess();
+  }
+
+  // ===== BATTERY OPTIMIZATION BANNER =====
+  function checkBatteryBanner() {
+    if (!isNative) return;
+    if (localStorage.getItem(BATTERY_KEY)) return;
+    // Show after a short delay
+    setTimeout(function () {
+      if (batteryBanner) batteryBanner.style.display = '';
+    }, 3000);
+  }
+
+  if (batteryDismiss) {
+    batteryDismiss.addEventListener('click', function () {
+      localStorage.setItem(BATTERY_KEY, '1');
+      if (batteryBanner) batteryBanner.style.display = 'none';
+    });
+  }
+
+  // ===== BACKUP REMINDER =====
+  function checkBackupReminder() {
+    // Only remind if user has 3+ tasks
+    if (tasks.length < 3) return;
+
+    var lastBackup = parseInt(localStorage.getItem(BACKUP_KEY) || '0');
+    var now = Date.now();
+
+    // Never backed up, or it's been > 7 days
+    if (lastBackup === 0 || (now - lastBackup) > BACKUP_INTERVAL) {
+      showBackupReminder();
+    }
+  }
+
+  function showBackupReminder() {
+    var existing = document.querySelector('.backup-reminder');
+    if (existing) return; // Already showing
+
+    var div = document.createElement('div');
+    div.className = 'backup-reminder';
+    div.innerHTML =
+      '<div class="backup-reminder-text">' + t('backup_reminder_text') + '</div>' +
+      '<div class="backup-reminder-btns">' +
+        '<button class="backup-btn-export" id="backupExportBtn">' + t('backup_btn_export') + '</button>' +
+        '<button class="backup-btn-later" id="backupLaterBtn">' + t('backup_btn_later') + '</button>' +
+      '</div>';
+    document.body.appendChild(div);
+
+    document.getElementById('backupExportBtn').addEventListener('click', function () {
+      exportData();
+      div.remove();
+    });
+    document.getElementById('backupLaterBtn').addEventListener('click', function () {
+      // Snooze for 3 days
+      localStorage.setItem(BACKUP_KEY, (Date.now() - BACKUP_INTERVAL + 3 * 24 * 60 * 60 * 1000).toString());
+      div.remove();
+    });
+  }
+
   // ===== LOCAL NOTIFICATIONS =====
 
   // Convert task id string to a positive integer for notification ID
@@ -824,7 +1094,7 @@
           title: 'RecurKit',
           body: bodyText,
           id: notifId,
-          schedule: { at: notifDate },
+          schedule: { at: notifDate, allowWhileIdle: true },
           sound: 'default',
           smallIcon: 'ic_stat_notify',
           largeIcon: 'ic_launcher',
@@ -898,6 +1168,8 @@
     createNotifChannel();
     // Small delay to let the app fully load
     setTimeout(scheduleAllNotifications, 1500);
+    // Show battery optimization banner (once)
+    checkBatteryBanner();
   }
 
 })();

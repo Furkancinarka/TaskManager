@@ -73,7 +73,39 @@
       install_title: 'Install RecurKit', install_text: 'Add to your home screen for quick access', install_btn: 'Install',
       // Notifications
       notif_body: '{name} is due today',
-      notif_body_time: '{name} is due at {time} -- 30 min heads up!'
+      notif_body_time: '{name} is due at {time} -- 30 min heads up!',
+      // Menu
+      menu_export: 'Export Data', menu_import: 'Import Data',
+      // Data section
+      data_title: 'Your Data',
+      data_warn: 'Tasks are stored on this device only. Export regularly to keep a backup.',
+      // Export/Import toasts
+      toast_exported: 'Backup saved!',
+      toast_imported: '{count} task(s) imported.',
+      toast_import_fail: 'Invalid backup file.',
+      toast_samples: 'Sample tasks added!',
+      import_confirm_merge: 'Import {count} task(s)? New tasks will be added alongside your existing ones.',
+      // Onboarding
+      onboard_title: 'Welcome to RecurKit',
+      onboard_sub: 'The dead simple recurring task manager. Add tasks that repeat -- daily, weekly, monthly, yearly -- and never forget them again.',
+      onboard_ex1: 'Send invoice on the 1st',
+      onboard_ex2: 'Check inventory every Thursday',
+      onboard_ex3: 'Renew domain on March 15',
+      onboard_btn_samples: 'Start with sample tasks',
+      onboard_btn_skip: 'Start empty',
+      // Sample task names
+      sample_invoice: 'Send invoice to client',
+      sample_inventory: 'Check inventory',
+      sample_domain: 'Renew domain',
+      sample_report: 'Send weekly report',
+      sample_backup: 'Backup data',
+      // Battery
+      battery_title: 'Notifications may not work',
+      battery_text: 'Some phones kill background apps. Open Settings > Apps > RecurKit > Battery and set to "Unrestricted" for reliable reminders.',
+      // Backup reminder
+      backup_reminder_text: 'Your tasks are only stored on this device. Export a backup to keep them safe.',
+      backup_btn_export: 'Export now',
+      backup_btn_later: 'Later'
     },
 
     // ======================== TURKISH ========================
@@ -124,7 +156,32 @@
       btn_undo: 'Geri al', btn_mark_done: 'Tamamlandı olarak işaretle', btn_undo_completion: 'Geri al', btn_delete_task: 'Görevi sil',
       install_title: 'RecurKit\'i Yükle', install_text: 'Hızlı erişim için ana ekranınıza ekleyin', install_btn: 'Yükle',
       notif_body: '{name} bugün yapılmalı',
-      notif_body_time: '{name} saat {time} -- 30 dk sonra!'
+      notif_body_time: '{name} saat {time} -- 30 dk sonra!',
+      menu_export: 'Veriyi D\u0131\u015fa Aktar', menu_import: 'Veri \u0130\u00e7e Aktar',
+      data_title: 'Verileriniz',
+      data_warn: 'G\u00f6revler sadece bu cihazda saklan\u0131r. D\u00fczenli olarak yedek al\u0131n.',
+      toast_exported: 'Yedek kaydedildi!',
+      toast_imported: '{count} g\u00f6rev i\u00e7e aktar\u0131ld\u0131.',
+      toast_import_fail: 'Ge\u00e7ersiz yedek dosyas\u0131.',
+      toast_samples: '\u00d6rnek g\u00f6revler eklendi!',
+      import_confirm_merge: '{count} g\u00f6rev i\u00e7e aktar\u0131ls\u0131n m\u0131? Yeni g\u00f6revler mevcut g\u00f6revlerinizin yan\u0131na eklenecek.',
+      onboard_title: 'RecurKit\'e Ho\u015f Geldiniz',
+      onboard_sub: '\u00c7ok basit tekrarlayan g\u00f6rev y\u00f6neticisi. G\u00fcnl\u00fck, haftal\u0131k, ayl\u0131k veya y\u0131ll\u0131k tekrarlanan g\u00f6revler ekleyin ve bir daha unutmay\u0131n.',
+      onboard_ex1: 'Her ay\u0131n 1\'inde fatura g\u00f6nder',
+      onboard_ex2: 'Her per\u015fembe envanter kontrol\u00fc',
+      onboard_ex3: '15 Mart\'ta alan ad\u0131 yenile',
+      onboard_btn_samples: '\u00d6rnek g\u00f6revlerle ba\u015fla',
+      onboard_btn_skip: 'Bo\u015f ba\u015fla',
+      sample_invoice: 'M\u00fc\u015fteriye fatura g\u00f6nder',
+      sample_inventory: 'Envanter kontrol\u00fc',
+      sample_domain: 'Alan ad\u0131n\u0131 yenile',
+      sample_report: 'Haftal\u0131k rapor g\u00f6nder',
+      sample_backup: 'Veri yedekle',
+      battery_title: 'Bildirimler \u00e7al\u0131\u015fmayabilir',
+      battery_text: 'Baz\u0131 telefonlar arka plan uygulamalar\u0131n\u0131 kapat\u0131r. Ayarlar > Uygulamalar > RecurKit > Pil b\u00f6l\u00fcm\u00fcnden "S\u0131n\u0131rs\u0131z" olarak ayarlay\u0131n.',
+      backup_reminder_text: 'G\u00f6revleriniz sadece bu cihazda saklan\u0131yor. Güvende tutmak i\u00e7in yedek al\u0131n.',
+      backup_btn_export: '\u015eimdi yedekle',
+      backup_btn_later: 'Sonra'
     },
 
     // ======================== GERMAN ========================
@@ -175,7 +232,32 @@
       btn_undo: 'Rückgängig', btn_mark_done: 'Als erledigt markieren', btn_undo_completion: 'Rückgängig', btn_delete_task: 'Aufgabe löschen',
       install_title: 'RecurKit installieren', install_text: 'Zum Startbildschirm hinzufügen', install_btn: 'Installieren',
       notif_body: '{name} ist heute fällig',
-      notif_body_time: '{name} ist um {time} fällig -- in 30 Min!'
+      notif_body_time: '{name} ist um {time} fällig -- in 30 Min!',
+      menu_export: 'Daten exportieren', menu_import: 'Daten importieren',
+      data_title: 'Ihre Daten',
+      data_warn: 'Aufgaben werden nur auf diesem Ger\u00e4t gespeichert. Exportieren Sie regelm\u00e4\u00dfig ein Backup.',
+      toast_exported: 'Backup gespeichert!',
+      toast_imported: '{count} Aufgabe(n) importiert.',
+      toast_import_fail: 'Ung\u00fcltige Backup-Datei.',
+      toast_samples: 'Beispielaufgaben hinzugef\u00fcgt!',
+      import_confirm_merge: '{count} Aufgabe(n) importieren? Neue Aufgaben werden neben Ihren bestehenden hinzugef\u00fcgt.',
+      onboard_title: 'Willkommen bei RecurKit',
+      onboard_sub: 'Der einfachste Aufgabenmanager f\u00fcr wiederkehrende Aufgaben. T\u00e4glich, w\u00f6chentlich, monatlich oder j\u00e4hrlich -- nie wieder vergessen.',
+      onboard_ex1: 'Rechnung am 1. senden',
+      onboard_ex2: 'Jeden Donnerstag Bestand pr\u00fcfen',
+      onboard_ex3: 'Domain am 15. M\u00e4rz verl\u00e4ngern',
+      onboard_btn_samples: 'Mit Beispielaufgaben starten',
+      onboard_btn_skip: 'Leer starten',
+      sample_invoice: 'Rechnung an Kunden senden',
+      sample_inventory: 'Bestand pr\u00fcfen',
+      sample_domain: 'Domain verl\u00e4ngern',
+      sample_report: 'Wochenbericht senden',
+      sample_backup: 'Daten sichern',
+      battery_title: 'Benachrichtigungen funktionieren m\u00f6glicherweise nicht',
+      battery_text: 'Einige Telefone beenden Hintergrund-Apps. \u00d6ffnen Sie Einstellungen > Apps > RecurKit > Akku und setzen Sie auf "Uneingeschr\u00e4nkt".',
+      backup_reminder_text: 'Ihre Aufgaben sind nur auf diesem Ger\u00e4t gespeichert. Exportieren Sie ein Backup, um sie zu sichern.',
+      backup_btn_export: 'Jetzt exportieren',
+      backup_btn_later: 'Sp\u00e4ter'
     },
 
     // ======================== FRENCH ========================
@@ -226,7 +308,32 @@
       btn_undo: 'Annuler', btn_mark_done: 'Marquer comme fait', btn_undo_completion: 'Annuler', btn_delete_task: 'Supprimer la tâche',
       install_title: 'Installer RecurKit', install_text: 'Ajouter à l\u2019écran d\u2019accueil pour un accès rapide', install_btn: 'Installer',
       notif_body: '{name} est pr\u00e9vu aujourd\u2019hui',
-      notif_body_time: '{name} est pr\u00e9vu \u00e0 {time} -- dans 30 min!'
+      notif_body_time: '{name} est pr\u00e9vu \u00e0 {time} -- dans 30 min!',
+      menu_export: 'Exporter les donn\u00e9es', menu_import: 'Importer les donn\u00e9es',
+      data_title: 'Vos donn\u00e9es',
+      data_warn: 'Les t\u00e2ches sont stock\u00e9es uniquement sur cet appareil. Exportez r\u00e9guli\u00e8rement une sauvegarde.',
+      toast_exported: 'Sauvegarde enregistr\u00e9e\u00a0!',
+      toast_imported: '{count} t\u00e2che(s) import\u00e9e(s).',
+      toast_import_fail: 'Fichier de sauvegarde invalide.',
+      toast_samples: 'T\u00e2ches d\u2019exemple ajout\u00e9es\u00a0!',
+      import_confirm_merge: 'Importer {count} t\u00e2che(s)\u00a0? Les nouvelles t\u00e2ches seront ajout\u00e9es \u00e0 c\u00f4t\u00e9 des existantes.',
+      onboard_title: 'Bienvenue sur RecurKit',
+      onboard_sub: 'Le gestionnaire de t\u00e2ches r\u00e9currentes ultra simple. Ajoutez des t\u00e2ches qui se r\u00e9p\u00e8tent et ne les oubliez plus jamais.',
+      onboard_ex1: 'Envoyer la facture le 1er',
+      onboard_ex2: 'V\u00e9rifier l\u2019inventaire chaque jeudi',
+      onboard_ex3: 'Renouveler le domaine le 15 mars',
+      onboard_btn_samples: 'D\u00e9marrer avec des exemples',
+      onboard_btn_skip: 'D\u00e9marrer vide',
+      sample_invoice: 'Envoyer la facture au client',
+      sample_inventory: 'V\u00e9rifier l\u2019inventaire',
+      sample_domain: 'Renouveler le domaine',
+      sample_report: 'Envoyer le rapport hebdomadaire',
+      sample_backup: 'Sauvegarder les donn\u00e9es',
+      battery_title: 'Les notifications peuvent ne pas fonctionner',
+      battery_text: 'Certains t\u00e9l\u00e9phones ferment les apps en arri\u00e8re-plan. Ouvrez Param\u00e8tres > Apps > RecurKit > Batterie et choisissez "Non restreint".',
+      backup_reminder_text: 'Vos t\u00e2ches sont uniquement sur cet appareil. Exportez une sauvegarde pour les prot\u00e9ger.',
+      backup_btn_export: 'Exporter maintenant',
+      backup_btn_later: 'Plus tard'
     }
   };
 

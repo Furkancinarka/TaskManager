@@ -38,6 +38,18 @@
           <option value="de">🇩🇪 DE</option>
           <option value="fr">🇫🇷 FR</option>
         </select>
+        <div class="menu-wrap">
+          <button class="menu-btn" id="menuBtn" aria-label="Menu">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>
+          </button>
+          <div class="menu-dropdown" id="menuDropdown">
+            <button class="menu-item" id="btnExport" data-i18n="menu_export">Export Data</button>
+            <button class="menu-item" id="btnImport" data-i18n="menu_import">Import Data</button>
+            <div class="menu-sep"></div>
+            <a href="about.html" class="menu-item" data-i18n="nav_about">About</a>
+            <a href="privacy.html" class="menu-item" data-i18n="nav_privacy">Privacy</a>
+          </div>
+        </div>
       </nav>
     </div>
   </header>
@@ -188,6 +200,15 @@
           <li data-i18n-html="how_3"><strong>Never forget</strong> a recurring task again.</li>
         </ul>
       </div>
+
+      <div class="sidebar-data card">
+        <h3 data-i18n="data_title">Your Data</h3>
+        <p class="data-warn" data-i18n="data_warn">Tasks are stored on this device only. Export regularly to keep a backup.</p>
+        <div class="data-btns">
+          <button class="btn-secondary" id="sidebarExport" data-i18n="menu_export">Export Data</button>
+          <button class="btn-secondary" id="sidebarImport" data-i18n="menu_import">Import Data</button>
+        </div>
+      </div>
     </aside>
 
   </div>
@@ -212,6 +233,34 @@
     <svg class="fab-icon fab-icon-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
     <svg class="fab-icon fab-icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="6" y1="18" x2="18" y2="6"/></svg>
   </button>
+
+  <!-- ===== Onboarding Overlay ===== -->
+  <div class="onboarding" id="onboarding" style="display:none">
+    <div class="onboarding-card">
+      <div class="onboarding-icon">&#8635;</div>
+      <h1 data-i18n="onboard_title">Welcome to RecurKit</h1>
+      <p data-i18n="onboard_sub">The dead simple recurring task manager. Add tasks that repeat — daily, weekly, monthly, yearly — and never forget them again.</p>
+      <div class="onboard-examples">
+        <div class="onboard-example" data-i18n="onboard_ex1">Send invoice on the 1st</div>
+        <div class="onboard-example" data-i18n="onboard_ex2">Check inventory every Thursday</div>
+        <div class="onboard-example" data-i18n="onboard_ex3">Renew domain on March 15</div>
+      </div>
+      <button class="btn-primary" id="onboardSamples" data-i18n="onboard_btn_samples">Start with sample tasks</button>
+      <button class="btn-ghost" id="onboardSkip" data-i18n="onboard_btn_skip">Start empty</button>
+    </div>
+  </div>
+
+  <!-- ===== Battery Optimization Banner ===== -->
+  <div class="battery-banner" id="batteryBanner" style="display:none">
+    <div class="battery-banner-text">
+      <strong data-i18n="battery_title">Notifications may not work</strong>
+      <span data-i18n="battery_text">Some phones kill background apps. Open Settings > Apps > RecurKit > Battery and set to "Unrestricted" for reliable reminders.</span>
+    </div>
+    <button class="battery-dismiss" id="batteryDismiss">OK</button>
+  </div>
+
+  <!-- Hidden file input for Import -->
+  <input type="file" id="importFileInput" accept=".json,application/json" style="display:none">
 
   <!-- Capacitor bridge — auto-injected in native builds, no-op in browser -->
   <script src="capacitor.js" onerror="/* not native, ignore */"></script>
